@@ -1,0 +1,137 @@
+
+# Spark Concepts.
+
+## What is it ?
+
+- Open source unified analytics engine.
+- General purpose lightning fast cluster computing platform.
+- Can perform batch processing and stream processing.
+- Can easily integrate with Hadoop tools, that does not mean this
+  is an extension to Hadoop.
+- Map reduce can also do the job, but if you want results with lower latencies,
+  Spark comes into picture.
+
+## Components of Spark
+
+- Spark core
+    Central part of spark. Basically provides an execution platform for all spark applications
+- Spark SQL
+    Run sql/hql queries. Can process structured as well as unstructured data.
+- Spark streaming
+    Can consume live log streams and be converted to Micro-batches.
+    Enables a powerful interactive and data analytics applications.
+- Spark MLlib
+    Machine Learning Library.
+- Spark GraphX
+    Graph computation engine.
+- SparkR
+    R Library for Spark.
+
+## Spark Context
+
+The PySpark shell actually links the Python API to Spark core and initialises the Spark context.
+
+SparkContext is the heart of a spark application. (NOTE : You may assume that a sparkContext instance is a spark application.)
+It sets up internal services and establishes a connection to Spark execution environment.
+This environment is the deploy-mode which could be either local or clustered (Spark stand alone, Yarn, Mesos.)
+Once a SparkContext is initialised, you can create RDDs, accumulators and broadcast variables, access Spark
+services and run jobs (until the spark context is stopped)
+
+### Datasets and Datastreams
+
+A dataset is a distributed collection of data. Dataset is a new interface added in Spark 1.6 that provides the benefits of RDDs.
+A dataset can be constructed from JVM objects and then manipulated using functional transformations(map, filter, flatMap, etc)
+The Dataset API is available in Scala and Java. Python does not have the support for the Dataset API.
+
+A DataFrame is a dataset organized into named columns. It is conceptually equivalent to a table in rdbms or a data frame
+in R/Python with richer optimizations under the hood. DataFrames can be constructed from a wide array of sources such as:
+structured data files,  tables in HIVE, external databases or existing RDDs.
+
+### Overview
+
+Every spark application consists of a "driver" program. It runs the "main" function and executes various parallel operations
+on a cluster.
+
+The main abstraction spark provides : RDD (Resilient Distributed Dataset)
+RDD = A fault tolerant collection of elements that is partitioned across the nodes of the cluster that can be operated on in parallel.
+Second abstraction = Shared Variables
+
+NOTE : When you launch a pyspark shell, SparkContext is already initialised with name "sc"
+
+## RDDs
+
+### Ways of creating RDDs
+
+2 ways of creating an RDD :
+- parallelize an existing collection in your driver program
+      There is a parameter for parallel collections where in the dataset can be cut into no of partitions.
+       use 2-4 partitions per core.
+       Normally spark does this on it's own as per resource availability in cluster.
+       These partitions are also called as slices.
+- refer a dataset in an external storage system.
+
+### Operations
+
+Supports 2 type of operations.
+- transformations :
+    Creates a dataset from a new dataset.
+- actions :
+    Returns a value to the driver after running computations on the dataset.
+
+Transformations in spark are lazy, they do not compute their results right away, they are only
+computed when there is a result that has to be given to the driver program.
+
+#### Passing funtions to Spark :
+
+Spark's API relies heavily on passing functions in the driver program to run on the cluster.
+There are 3 different ways to do this.
+    - lambda functions
+    - local defs inside the funtion calling spark,for longer code.
+    - Top level functions in a module.
+
+### Understanding closures
+
+
+
+
+# Spark SQL
+
+- It is a module for structured data processing.
+- Unlike the basic RDD api, interfaces provided by spark SQL provide spark
+  with more information about the structure of the data and the computation
+  being performed.
+- When computing a result, the same execution engine is used.
+- One use of Spark SQL is to execute sql queries.
+- Also can be used to read data from an existing HIVE installation.
+
+## Datasets and DataFrames
+
+### Datasets
+- A dataset is a distributed collection of data.
+- It is a new interface added in spark 1.6
+- This is not available in Python.
+### Dataframes
+- A dataframe is a dataset organized into named columns.
+- Conceptually equivalent to a table in relational databases or a dataframe in Python/R
+- Can be constructed from various sources like structured data files, tables in hive,
+  external databases, or existing RDDs
+
+## Interoperating with RDDs
+
+Spark SQL supports two different methods for converting existing RDDs into datasets.
+- Inferring the schema using Reflection.
+- Programatically specifying the schema.
+  When a dictionary of kwargs cannot be defined ahead of time (for example, the structure of records
+  is encoded in a string, or a text dataset will be parsed and fields will be projected differently
+  for different users), a DataFrame can be created programmatically with three steps.
+    - Create an RDD of tuples or lists from the original RDD;
+    - Create the schema represented by a StructType matching the structure of tuples or lists in the
+      RDD created in the step 1.
+    - Apply the schema to the RDD via createDataFrame method provided by SparkSession.
+
+
+
+
+# Tasks
+- Direct Spark read operation on parquet files ?
+- Spark sql on Parquet files ?
