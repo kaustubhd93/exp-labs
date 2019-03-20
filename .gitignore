@@ -1,2 +1,4 @@
 learning-spark/*.log
 learning-spark/metastore_db
+learning-flask-appbuilder/app.db
+*.pyc
