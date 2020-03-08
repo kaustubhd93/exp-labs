@@ -23,3 +23,12 @@ Create a view in views.py, reference and map the view in urls.py of the app. The
 Add new urls in the below format in the list urlpatterns.
 path("route", views.func_name, name="func_name", kwargs)
 kwargs and name is optional.
+
+# Installed APPS defaults in main setting.py
+
+- django.contrib.admin             --Admin site.  
+- django.contrib.auth              --Authentication system
+- django.contrib.contenttypes      --A framework for content types
+- django.contrib.sessions          --A session framework        
+- django.contrib.messages          --A messagin framework
+- django.contrib.staticfiles       --A framework for managing static files.

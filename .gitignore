@@ -1,5 +1,6 @@
 learning-spark/*.log
 learning-spark/metastore_db
 learning-flask-appbuilder/app.db
+learning-django/sampleapp/sampleapp/confidential.py
 *.pyc
 *.sqlite3
