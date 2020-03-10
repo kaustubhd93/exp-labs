@@ -48,3 +48,8 @@ kwargs and name is optional.
 - Change code in models.py
 - Run `python manage.py makemigrations <app_name>` (Creates migrations)
 - Run `python manage.py migrate` (Applies migration to database)
+
+# How do views and urls work ?
+
+- When one requests http://mysite.com/4 (4 here being the question id) Django loads the mysite.urls module because it is pointed by the ROOT_URLCONF settings. It finds the variable named urlpatterns and traverses the patterns in order. After finding relevant match, it strips off the matching part (in this case http://mysite.com) and sends the remaining text "/4" to "polls.urls" URLconf for further processing. There it matches <int:question_id>/ and calls detail() view.
+- The question_id=4 part comes from <int:question_id>. Using angle brackets "captures" part of the URL and sends it as a keyword argument to the view function. The question_id> part of the string defines the name that will be used to identify the matched pattern, and the <int: part is a converter that determines what patterns should match this part of the URL path. If we do not use the int part any random keyword will be matched like  "http://mysite.com/fdsfkds".
