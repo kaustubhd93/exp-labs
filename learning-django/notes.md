@@ -32,3 +32,19 @@ kwargs and name is optional.
 - django.contrib.sessions          --A session framework        
 - django.contrib.messages          --A messagin framework
 - django.contrib.staticfiles       --A framework for managing static files.
+
+# models.py
+
+- It is the blueprint of the tables in your database.
+
+# migrations in django
+
+- Migrations are how Django stores changes to your models(and thus your database schema)-they're just files on disk.
+- The "migrate" command takes all migrations that haven't been applied(Django tracks every migration by using a special table in the database called django_migrations) and runs them against the database essentially, synchronizing the changes you made to your models with the schema in the database.
+- Migrations can let us change models over time, as we develop our project in real time without the need to delete database or tables and make new ones -- database can be upgraded live without any loss of data.
+
+# 3 steps to modify models
+
+- Change code in models.py
+- Run `python manage.py makemigrations <app_name>` (Creates migrations)
+- Run `python manage.py migrate` (Applies migration to database)
