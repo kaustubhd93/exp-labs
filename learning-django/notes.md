@@ -53,3 +53,39 @@ kwargs and name is optional.
 
 - When one requests http://mysite.com/4 (4 here being the question id) Django loads the mysite.urls module because it is pointed by the ROOT_URLCONF settings. It finds the variable named urlpatterns and traverses the patterns in order. After finding relevant match, it strips off the matching part (in this case http://mysite.com) and sends the remaining text "/4" to "polls.urls" URLconf for further processing. There it matches <int:question_id>/ and calls detail() view.
 - The question_id=4 part comes from <int:question_id>. Using angle brackets "captures" part of the URL and sends it as a keyword argument to the view function. The question_id> part of the string defines the name that will be used to identify the matched pattern, and the <int: part is a converter that determines what patterns should match this part of the URL path. If we do not use the int part any random keyword will be matched like  "http://mysite.com/fdsfkds".
+
+# Syntax of templates in Django
+
+- A template is rendered with a context(a dict). Rendering replaces variables with their values which are looked up in the context and executes tags. Everything else is output as is.
+- The syntax involves 4 constructs: Variables, Tags, Filters, Comments.
+
+### Variables:
+
+- Variables are surrounded by {{ and }} as shown below. Where first_name and last_name are keys of a dictionary. On rendering, the sentence will have values of first_name and last_name respectively.
+> My first name is {{ first_name }} and my last name is {{ last_name }}  
+
+- Dictionary lookup, attribute lookup and list-index lookups are implemented with a dot notation.
+>{{ sample_dict.key }}  
+{{ my_object.attribute }}  
+{{ my_list.0 }}  
+
+### Tags
+
+- Tags provide arbitrary logic in the rendering process.
+- It can output content, serve as control structure eg: "if" condition, "for" loop; grab content from database and even enable access to other template tags.
+- This is the entire reference for what we can use in tags: https://docs.djangoproject.com/en/2.2/ref/templates/builtins/#ref-templates-builtins-tags
+- They are written in format shown below.  
+> {% tag_stuff %}  
+
+### Filters
+
+- Do not go by it's name Filters actually *transform* the values of variables and tag arguments.
+- They look like this:
+> {{ topic|title }}  
+With a context {"topic": "Current state of democracy in India "}  
+
+- Reference for built in filters: https://docs.djangoproject.com/en/2.2/ref/templates/builtins/#ref-templates-builtins-filters
+
+### Comments
+
+> {# This won't be rendered. #}  
