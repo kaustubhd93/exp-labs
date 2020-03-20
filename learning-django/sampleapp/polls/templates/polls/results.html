@@ -2,6 +2,7 @@
 
 <ul>
   {% for choice in question.choice_set.all %}
+    {# pluralize filter is used, so the word vote becomes votes if it's value goes above 1. #}
     <li>{{ choice.choice_text }} -- {{ choice.votes }} vote{{ choice.votes|pluralize}}</li>
   {% endfor %}
 </ul>
