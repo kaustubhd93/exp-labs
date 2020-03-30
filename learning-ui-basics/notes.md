@@ -74,4 +74,43 @@
 - Adding ```alt``` attribute to the ```<img/>``` element is a best practice.
 - Helps with search engines and text-only browsers(eg: people that use text-to-speech software.)
 
- 
+# CSS (Cascading style sheets.)
+
+- A css file is a set of rules how the content will be presented.
+- Syntax of Rule:
+```css
+selector {
+    property: value;
+}
+```
+- The block defined by the curly braces is a declaration block.
+
+## How to link css files:
+
+- Use the ```<link/>``` element inside the ```head``` section and add the ```rel``` attribute to ```link```.
+- Add the ```href``` attribute to mention the css file with rules.
+
+> NOTE: - There’s no direct connection between the browser and our stylesheet. It’s only through the HTML markup that the browser can find it. CSS, images, and even JavaScript all rely on an HTML page to glue everything together, making HTML the heart of most websites
+
+## Units of measurement:
+
+- Font is measured in **px**(pixel) or **em**(pronounced as m).
+- ```em``` is based on a basic font-size sent in px.
+- Recommended way is to set a basic font size and then ```em``` every where else to scale up font sizes. This way by adjusting the base every other size is scaled accordingly.
+
+## The Cascade
+
+- The cascading part of CSS is due to the fact that rules cascade down from multiple sources.
+- The one which we write in our project is an external style sheet.
+
+### CSS heirarchy:
+
+- Browser's default stylesheet
+- User defined stylesheet (This can be edited in web developer console.)
+- External stylesheet.
+- Page specific stylesheet.
+- Inline styles.
+
+> This is ordered from least to most precedence, which means styles defined in each subsequent step override previous ones. For example, inline styles will always make the browser ignore its default styles.
+
+#### You can always refer [MDN CSS reference](https://developer.mozilla.org/en-US/docs/Web/CSS/Reference)

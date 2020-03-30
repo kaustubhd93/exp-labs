@@ -1,0 +1,38 @@
+/*This will style the body element of html file you link it to.*/
+body {
+    color: #414141; /*color: Dark grey*/
+    background-color: #EEEEEE; /*color: Light gray*/
+    font-size: 18px;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    /*font-family accepts multiple values. Browser tries to load the left-most first.*/
+    font-family: "Helvetica", "Arial", sans-serif;
+    font-weight: normal;
+}
+
+h1 {
+    /*font-size: 36px;*/
+    font-size: 2em;
+}
+
+h2 {
+    /*font-size: 28px;*/
+    font-size: 1.6em;
+}
+
+ul {
+    list-style-type: circle;
+}
+
+ol {
+    list-style-type: upper-roman;
+}
+
+a {
+    text-decoration: none;
+}
+
+p {
+    text-align: left;
+}
