@@ -1,0 +1,62 @@
+/*Overriding default styles by using the universal CSS selector.*/
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    text-align: center;
+}
+
+h1, p {
+    background-color: #DDE0E3;
+}
+
+h1 {
+    padding: 50px;
+    /*border: 1px solid #5D6063;*/
+    border-bottom: 1px solid #5D6063;
+}
+
+p {
+    /*This method is tire-some*/
+    /* padding-top: 20px;
+    padding-bottom: 20px;
+    padding-left: 10px;
+    padding-right: 10px; */
+    /*Try this*/
+    /*padding: vertical_value horizontal_value*/
+    /*padding: 20px 10px;*/
+    /*There is one more method*/
+    /*padding: top right bottom left*/
+    padding: 20px 0px 10px 10px;
+    /*The above 2 methods are called short-hand formats*/
+    /*This will lead to a margin collapse*/
+    margin-top: 25px;
+    margin-bottom: 50px;
+}
+
+em, strong {
+    background-color: #B2D6FF;
+    /*display: block;* This is not a good idea.*/
+}
+
+strong {
+    margin: 50px;
+}
+
+div {
+    color: #FFF;
+    background-color: #5995DA;
+    font-weight: bold;
+    padding: 20px;
+    text-align: center;
+    border: 2px solid #5D6063;
+    border-radius: 5px;
+    width: 200px;
+    /*Using border-box is considered to be a best practice.*/
+    box-sizing: border-box;
+    /*vertical_value horizontal_value*/
+    margin: 20px auto;
+}

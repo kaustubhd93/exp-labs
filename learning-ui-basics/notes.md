@@ -114,3 +114,27 @@ selector {
 > This is ordered from least to most precedence, which means styles defined in each subsequent step override previous ones. For example, inline styles will always make the browser ignore its default styles.
 
 #### You can always refer [MDN CSS reference](https://developer.mozilla.org/en-US/docs/Web/CSS/Reference)
+
+# CSS Box model
+
+- It is a set of rules how every web page on the internet is rendered.
+- CSS treats each element in your html document as a "box" with a bunch of different properties that determine where it appears on page.
+- It gives each box(both inline and block) four properties.
+    - content: The text, image or other media content in the element.
+    - padding: space between boxes contents and it's border.
+    - border: line between boxes padding and margin.
+    - margin: space between box and surrounding boxes.
+![css-box-model-73a525](https://user-images.githubusercontent.com/9679436/78031172-cc5ee280-7380-11ea-857b-c14881d650d2.png)
+> IMG source: https://www.internetingishard.com/html-and-css/css-box-model/
+
+## Things about margin and padding:
+
+- Padding of a box has a background, while margins are always transparent.
+- Padding is included in the click area of an element, while margins aren't.
+- Margins collapse vertically, while padding does not.
+- One has to choose whether to use margin or padding.
+
+# div and span:
+
+- ```div``` and ```span``` are container elements. They do not affect the semantic structure of an html document.
+- However they do provide a hook for adding CSS styles to arbitrary sections of a web page.
