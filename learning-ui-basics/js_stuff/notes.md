@@ -59,3 +59,81 @@ As you can see backticks are "extended functionality" quotes. They allow us to e
 > NOTE: Doing maths is “safe” in JavaScript. We can do anything: divide by zero, treat non-numeric strings as numbers, etc. The script will never stop with a fatal error (“die”). At worst, we'll get NaN as the result.
 
 # Operators
+
+## unary, binary, operands
+
+- In 5*2. 5 and 2 are operands.
+- an operator is binary if it has two operands.
+- operator is unary if it has one operand. (In -1 the negative operator makes the operand negative.)
+
+## String concatenation, binary +
+
+- An expression like ("1" + 2) in Python would result in an error but JavaScript processes this differenty.
+- ("1" + 2) => "12" (Note this is a string)
+- (2 + "1") => "21"
+- (4 + 5 + "7") => "97" (Since the expression is evaluated left to right so 4 and 5 will be added.)
+- But this is only special with the "+" operator. For all the others, the if the number is represented as a string then the end result will be a number and the mathematical operation will take place normally.
+
+> NOTE : An operator always returns a value. That’s obvious for most of them like addition + or multiplication ```*```. But the assignment operator follows this rule too. The call ```x = value``` writes the value into ```x``` and then returns it.
+
+## Exponentiation
+
+- The expression below gives the answer as 32.
+```javascript
+alert(2 ** 5)
+```
+
+## Increment/Decrement
+
+- If we use the normal form ```counter = counter + 1```, the result will always be a number greater than the previous one. But counter++ and ++counter have a different meaning.
+- This will result in ```3```.
+```javascript
+let counter = 2;
+counter++;
+alert(counter);
+```
+- This will result in ```3```.
+```javascript
+let counter = 2;
+++counter;
+alert(counter);
+```
+- The difference is that the postfix form (var_name++) returns the previous value and the prefix form (++var_name) returns the calculated value. You will notice this in the developer console.
+- This will result in 1.
+```javascript
+let counter = 1;
+alert(counter++);
+```
+- This will result in 2.
+```javascript
+let counter = 1;
+alert(++counter);
+```
+
+## Some tricky operators in javascript.
+
+```javascript
+"" + 1 + 0 = "10" // (1)
+"" - 1 + 0 = -1 // (2)
+true + false = 1
+6 / "3" = 2
+"2" * "3" = 6
+4 + 5 + "px" = "9px"
+"$" + 4 + 5 = "$45"
+"4" - 2 = 2
+"4px" - 2 = NaN
+7 / 0 = Infinity
+" -9  " + 5 = " -9  5" // (3)
+" -9  " - 5 = -14 // (4)
+null + 1 = 1 // (5)
+undefined + 1 = NaN // (6)
+" \t \n" - 2 = -2 // (7)
+```
+
+1. The addition with a string "" + 1 converts 1 to a string: "" + 1 = "1", and then we have "1" + 0, the same rule is applied.
+2. The subtraction - (like most math operations) only works with numbers, it converts an empty string "" to 0.
+3. The addition with a string appends the number 5 to the string.
+4. The subtraction always converts to numbers, so it makes " -9 " a number -9 (ignoring spaces around it).
+5. null becomes 0 after the numeric conversion.
+6. undefined becomes NaN after the numeric conversion.
+7. Space characters, are trimmed off string start and end when a string is converted to a number. Here the whole string consists of space characters, such as \t, \n and a “regular” space between them. So, similarly to an empty string, it becomes 0
