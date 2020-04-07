@@ -138,3 +138,34 @@ selector {
 
 - ```div``` and ```span``` are container elements. They do not affect the semantic structure of an html document.
 - However they do provide a hook for adding CSS styles to arbitrary sections of a web page.
+
+# Class-selectors:
+
+- They let you apply css styles to a specific HTML element.
+- They let you differentiate between elements of the same type like div.
+- They require 2 things:
+    - A class attribute in the html element.
+    - A matching css selector in your stylesheet.
+- The standard naming convention is **lowercase with hyphens** if the name is too big.
+- You can declare one more class inside the element. Ensure the css block comes after the main class attribute. In this class you can add new properties or even override existing ones.
+- The order in which we specify the class attribute in the html element does not matter.
+
+## Descendant selectors:
+
+- They let you target only those elements who are inside another element like ```<em>``` or ```<strong>```.
+- You can nest Descendant selectors as deep as you want but do not overdo it. It will compromise the code readability.
+
+# Pseudo classes
+
+## For Links
+
+- We can set a different property for a link when it is visted, clicked or someone hovers over it.
+- It has to be in this order: a:link, a:visited, a:hover, a:active.
+
+## For Button
+
+- It has a similar format as above; .class_name:link/visited/hover/active.
+
+> NOTE: There is a bunch of pseudo classes at our disposal: Check this link  https://developer.mozilla.org/en-US/docs/Web/CSS/Pseudo-classes
+
+#

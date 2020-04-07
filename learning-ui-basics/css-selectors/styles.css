@@ -1,0 +1,93 @@
+.synopsis {
+    color: #7E8184; /*Light gray*/
+    font-style: italic;
+}
+
+.synopsis em {
+    font-style: normal;
+}
+
+.button:link,
+.button:visited {
+    display: block;
+    text-decoration: none;
+
+    color: #FFF;
+    background-color: #76AEED; /*Light Blue*/
+    font-weight: bold;
+    text-align: center;
+    padding: 20px;
+    border: 2px solid #5D6063;
+    border-radius: 5px;
+    margin: 20px auto;
+    box-sizing: border-box;
+    width: 200px;
+}
+
+.button:hover,
+.button:visited:hover {
+    color: #FFF;
+    background-color: #5995DA; /*Blue*/
+}
+
+.button:active,
+.button:visited:active {
+    color: #FFF;
+    background-color: #5995DA; /*Blue*/
+}
+
+/*This block has to be after the "button" block*/
+.call-to-action:link,
+.call-to-action:visited {
+    font-style: italic;
+    background-color: #228B22; /* Forest green */
+}
+
+.call-to-action:hover,
+.call-to-action:visited:hover {
+    background-color: #90EE90; /*Light green*/
+}
+
+.call-to-action:active,
+.call-to-action:visited:active {
+    background-color: #228B22; /* Forest green */
+}
+
+.page {
+    width: 600px;
+    margin: 0 auto;
+}
+
+a:link {
+    color:blue;
+    text-decoration: none;
+}
+
+a:visited {
+    color: purple;
+}
+
+/*This does not work if you */
+a:hover {
+    color: aqua;
+}
+
+/*This extra part is not required.*/
+a:visited:hover {
+    color: orange;
+}
+
+a:active {
+    color: red;
+}
+
+/*This extra part is not required.*/
+a:visited:active {
+    color: red;
+}
+
+/*The :last-of-type CSS pseudo-class represents the last
+element of its type among a group of sibling elements*/
+p:last-of-type {
+    margin-bottom: 50px;
+}
