@@ -137,3 +137,45 @@ undefined + 1 = NaN // (6)
 5. null becomes 0 after the numeric conversion.
 6. undefined becomes NaN after the numeric conversion.
 7. Space characters, are trimmed off string start and end when a string is converted to a number. Here the whole string consists of space characters, such as \t, \n and a “regular” space between them. So, similarly to an empty string, it becomes 0
+
+# Comparisons
+
+## String Comparison
+
+- Strings are comparable in JavaScript. It uses "dictionary" or "lexicographical" order.
+- The algorithm to compare two strings is simple:
+    - Compare the first character of both strings.
+    - If the first character from the first string is greater (or less) than the other string’s, then the first string is greater (or less) than the second. We’re done.
+    - Otherwise, if both strings’ first characters are the same, compare the second characters the same way.
+    - Repeat until the end of either string.
+    - If both strings end at the same length, then they are equal. Otherwise, the longer string is greater.
+- Check these examples.
+```javascript
+alert( 'Z' > 'A' ); // true
+alert( 'Glow' > 'Glee' ); // true
+alert( 'Bee' > 'Be' ); // true
+alert("A" > "a"); // false
+/* true because  the lowercase character has a greater index in the internal encoding table JavaScript uses (Unicode).*/
+alert("a" > "A");
+alert("Glowb" > "Glowa"); // true
+```
+- While strings which are numbers in form of strings are treated as numbers while comparing it with actual numbers or comparison with a string itself.
+
+## Strict equality
+
+- A regular equality check (```==```) has a problem. It cannot differentiate ```0``` from ```false```.
+- The problem:
+```javascript
+alert( 0 == false ); // true
+alert( '' == false ); // true
+```
+- This happens because operands of different types are converted to numbers by the equality operator ==. An empty string, just like false, becomes a zero.
+- **A strict equality operator === checks the equality without type conversion.**
+```javascript
+alert( 0 === false ); // false, because the types are different
+```
+- There is also a "strict non-equality" operator ```!==``` analogous to ```!=```.
+- Special case: This equality check returns false because undefined only equals null.
+```javascript
+alert( undefined == 0 ); // false
+```
