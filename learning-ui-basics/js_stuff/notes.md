@@ -179,3 +179,15 @@ alert( 0 === false ); // false, because the types are different
 ```javascript
 alert( undefined == 0 ); // false
 ```
+
+# Browser specific functions to interact with other visitors
+
+```javascript
+alert("any_message");
+prompt("Input_question_what_is_your_age_weight_etc", default_value);
+confirm("Are you the head of engineering?");
+```
+
+- These methods mentioned above are all browser specific.
+- You have to use modal elements to alter their look and feel.
+- Ensure you use default_value in prompt Otherwise it fails on IE.
