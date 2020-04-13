@@ -191,3 +191,47 @@ confirm("Are you the head of engineering?");
 - These methods mentioned above are all browser specific.
 - You have to use modal elements to alter their look and feel.
 - Ensure you use default_value in prompt Otherwise it fails on IE.
+- When you use ```prompt```. It's default data type is string.
+
+# Conditional Operators
+
+## if-else-elseif
+
+- A number ```0```, an empty string ```""```, ```null```, ```undefined```, and ```NaN``` all become false. Because of that they are called "falsy" values.
+- Other values become true, so they are called "truthy".
+- Syntax:
+```javascript
+if (condition) {
+    //some code here;
+} else {
+    //some code here;
+}
+
+// if else if
+if (condition) {
+    //some code here;
+} else if (condition) {
+    //some code here;
+} else {
+    //some code here;
+}
+```
+
+## ```?``` (Yes! that's exactly how it looks.)
+
+- This is it's syntax:
+```javascript
+let result = condition ? val1 : val2;
+```
+- If the condition is ```true```, result is val1. If ```false``` then it is val2.
+- Using this makes the code shorter but compromises readability.
+- Special case of ```?``` operator :
+```javascript
+let login = prompt("What is your designation", "");
+message = (login == "employee") ? "Hello employee" :
+    (login == "director") ? "Greetings direcor!" :
+    (login == "") ? "Nothing entered" :
+    "Invalid choice";
+alert(message);
+```
+# Logical Operators
