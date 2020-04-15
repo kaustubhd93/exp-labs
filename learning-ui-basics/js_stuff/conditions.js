@@ -29,8 +29,7 @@
 // let accessAllowed = age >= 18 ? true : false;
 // accessAllowed ? alert("Access granted") : alert("Acccess denied");
 
-// Special "?" example
-
+// ---- Special "?" example ----
 let login = prompt("What is your designation", "");
 message = (login == "employee") ? "Hello employee" :
     (login == "director") ? "Greetings direcor!" :

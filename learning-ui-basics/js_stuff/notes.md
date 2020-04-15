@@ -235,3 +235,44 @@ message = (login == "employee") ? "Hello employee" :
 alert(message);
 ```
 # Logical Operators
+
+- There are 3 logical operators in JavaScript:
+```javascript
+|| (or)
+&& (and)
+! (not)
+```
+## Short-circuit evaluation (OR)
+
+- Operands can be not only values, but arbitrary expressions. OR evaluates and tests them from left to right. The evaluation stops when a truthy value is reached, and the value is returned. This process is called "a short-circuit evaluation" because it goes as short as possible from left to right.
+- Check this:
+```javascript
+let x;
+true || (x=1);
+alert(x); // undefined because (x=1) was never evaluated.
+
+//---------------------------------------------------------
+let x;
+false || (x=1);
+alert(x); // 1 because the expression was evaluated here.
+```
+
+## Returning of value (```||``` and ```&&```)
+
+- An actual value is returned in these logical expressions. It does not return a boolean value.
+- In case of OR, the first truthy value is returned, if all are false, then the last falsy value is returned.
+- In case of AND, the first falsy value is returned, if all are true, then the last truthy value is returned.
+
+## NOT operator
+
+- Syntax is pretty simple:
+```javascript
+let result = !value;
+```
+- Returns a boolean value.
+
+## Some special cases.
+
+```javascript
+alert(alert(1) && alert(2)); //This will result in 1 first and then undefined.
+```
