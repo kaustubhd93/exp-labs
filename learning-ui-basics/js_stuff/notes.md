@@ -276,3 +276,35 @@ let result = !value;
 ```javascript
 alert(alert(1) && alert(2)); //This will result in 1 first and then undefined.
 ```
+
+# while and for
+
+- Syntax for ```while```
+```javascript
+while (condition) {
+    // code
+    // some more code here
+}
+```
+- Syntax for ```for```
+```javascript
+for (begin, condition, step) {
+    // some code here
+}
+```
+- This is an infinite loop in ```for```.
+```javascript
+for(;;) {
+    //code here repeats without limits.
+}
+```
+- Do not use the ```?``` operator. This results into ```Uncaught SyntaxError: Unexpected token 'continue'```. This is another example why one should not use the ```?``` operator.
+```javascript
+let i=4;
+for (let j=0; j<8; j++) {
+    (i < 5) ? alert(i) : continue;
+    i++;
+}
+```
+- One can label loops and we can ```break``` out of them or use ```continue``` to go over to the next iterator.
+- A call to ```break/continue``` is only possible from inside a loop and the label must be somewhere above the directive.
