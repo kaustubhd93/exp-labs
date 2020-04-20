@@ -308,3 +308,22 @@ for (let j=0; j<8; j++) {
 ```
 - One can label loops and we can ```break``` out of them or use ```continue``` to go over to the next iterator.
 - A call to ```break/continue``` is only possible from inside a loop and the label must be somewhere above the directive.
+
+# The "switch-case"
+
+- Replaces multiple ```if``` blocks.
+- Syntax:
+```javascript
+switch (x) {
+    case expression:
+        //some code here
+        break;
+    case expression:
+        //some code here
+        break;
+    default:
+        //some code here
+        break;
+}
+```
+- If there is no ```break``` statement, the condition that evaluates to be ```true```, that and the one's after it are executed.
