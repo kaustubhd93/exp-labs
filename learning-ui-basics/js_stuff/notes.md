@@ -327,3 +327,49 @@ switch (x) {
 }
 ```
 - If there is no ```break``` statement, the condition that evaluates to be ```true```, that and the one's after it are executed.
+
+# Functions in JavaScript
+
+- Syntax:
+```javascript
+function func_name() {
+    //some code here.
+}
+```
+- If a local variable is given the same name as the global variable without explicitly declaring it as a variable. Then the global variables value will be altered.
+```javascript
+// -------- Case 1 --------
+let cake = "chocalate";
+function makeCake() {
+    cake = "butterscotch";
+    alert(cake);
+}
+alert(cake); //This value will be butterscotch.
+
+// -------- Case 2 --------
+let cake = "chocalate";
+function makeCake() {
+    let cake = "butterscotch";
+    alert(cake);
+}
+alert(cake); //This value will be chocalate.(Unchanged)
+```
+- While using ```return```, it can be used without returning any value. Just plain
+```javascript
+function func_name() {
+    //some code here
+    return;
+}
+let check = func_name(); // check will have value undefined.    
+```
+- Do not write variables or long expressions that need to ```return``` something below the ```return``` statement. It assumes a semicolon there and returns ```undefined```.
+```javascript
+return
+ (some + long + expression + or + whatever * f(a) + f(b))  //Will not work
+
+return (
+    some + long + expression   // This will work.
+    + or +
+    whatever * f(a) + f(b)
+)
+```
