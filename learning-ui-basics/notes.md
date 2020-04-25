@@ -168,4 +168,24 @@ selector {
 
 > NOTE: There is a bunch of pseudo classes at our disposal: Check this link  https://developer.mozilla.org/en-US/docs/Web/CSS/Pseudo-classes
 
-#
+## CSS Specificity
+
+- Unfortunately, not all CSS selectors are created equal. “CSS specificity” is the weight given to different categories of selectors.
+- This means that certain selectors will always override other ones, regardless of where they appear in the stylesheet.
+- This can get very confusing. It’s such a big problem that an entire methodology called ![BEM](http://getbem.com/introduction/) has evolved. BEM attempts to make CSS rules more reusable by making everything a class selector. This completely eliminates the potential for specificity issues. BEM : Block, Element Modifier.
+- The takeaway here is that CSS rules are not necessarily applied in sequential order, but you should try to make the browser do so by writing CSS that uses the same specificity.
+
+# Float
+
+- "Floats" let you put block-level elements side-by-side instead of on top each other.
+- Syntax
+```css
+.selector {
+    /* Which direction would you like this block to float*/
+    float: direction; /*left or right*/
+}
+```
+> NOTE: To align a block in the centre use "margin: 0 auto". For left or right use "float"
+
+- When you float multiple elements in the same direction, they'll stack horizontally, much like the default vertical layout algorithm, except rotated 90 degrees.
+- Percentages in CSS are relative to their parent element.
