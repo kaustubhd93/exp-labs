@@ -175,7 +175,7 @@ selector {
 - This can get very confusing. It’s such a big problem that an entire methodology called ![BEM](http://getbem.com/introduction/) has evolved. BEM attempts to make CSS rules more reusable by making everything a class selector. This completely eliminates the potential for specificity issues. BEM : Block, Element Modifier.
 - The takeaway here is that CSS rules are not necessarily applied in sequential order, but you should try to make the browser do so by writing CSS that uses the same specificity.
 
-# Float
+# Floats
 
 - "Floats" let you put block-level elements side-by-side instead of on top each other.
 - Syntax
@@ -189,3 +189,25 @@ selector {
 
 - When you float multiple elements in the same direction, they'll stack horizontally, much like the default vertical layout algorithm, except rotated 90 degrees.
 - Percentages in CSS are relative to their parent element.
+
+# Flexbox
+
+- This gives you an alternative to floats, but gives you more power by giving full control of designing the web page horizontally and vertically.
+- Flexbox uses 2 types of boxes: flex containers and flex items.
+    - The flex container groups a bunch of flex items together and define how they are positioned.
+    - Every HTML element that's a direct child of a flex container is an "item".
+- Syntax for making an element a flexbox.
+```css
+.selector {
+    /* some property here ;*/
+    /* some property here ;*/
+    /* some property here ;*/
+    display: flex;
+    /* align horizontally */
+    justify-content: positions; /* flex-end, flex-start, space-between, space-around, center*/
+    /* align vertically */
+    align-items: positions; /* flex-end, flex-start, center, stretch, baseline */
+    flex-wrap: wrap_style; /* wrap, nowrap, wrap-reverse */
+    flex-direction: direction; /* row, column, row-reverse, column-reverse*/
+}
+```
