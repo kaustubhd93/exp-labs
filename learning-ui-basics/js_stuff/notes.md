@@ -373,3 +373,43 @@ return (
     whatever * f(a) + f(b)
 )
 ```
+# Functions expressions
+
+- The syntax used in the above section is "Function declaration."
+- The syntax for function expression is:
+```javascript
+let sayHi = function() {
+    alert("Hey, what up?")
+}
+```
+- With this, you can pass an entire function itself as an argument to another function.
+
+## Core difference between Function expression and Function declaration
+
+- A function expression is created when the execution reaches it and is usable only from that moment.
+- A function delcaration can be called earlier than it is defined. In this case when JavaScript prepares to run the script, it first looks for global function declarations in it and creates the functions. After all the function declarations are processed, the code is executed.
+- Lets check an example:
+```javascript
+let age = 16;
+if (age < 18) {
+    welcome();                          // This works
+
+    function welcome() {
+        alert("Hello there!");
+    }
+
+    welcome();                          // This works too.
+} else {
+    function welcome() {
+        alert("Greetings toddler");     // This does not get executed because of the condition.
+    }
+}
+
+// Calling a function outside curly braces.
+welcome(); // ReferenceError: welcome is not defined
+```
+> NOTE: As a rule of thumb, when we need to declare a function, the first to consider is Function Declaration syntax. It gives more freedom in how to organize our code, because we can call such functions before they are declared.
+That’s also better for readability, as it’s easier to look up function f(…) {…} in the code than let f = function(…) {…};. Function Declarations are more "eye-catching".
+…But if a Function Declaration does not suit us for some reason, or we need a conditional declaration (we’ve just seen an example), then Function Expression should be used.
+
+# 
