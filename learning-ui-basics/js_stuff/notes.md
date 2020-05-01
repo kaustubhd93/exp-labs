@@ -412,4 +412,24 @@ welcome(); // ReferenceError: welcome is not defined
 That’s also better for readability, as it’s easier to look up function f(…) {…} in the code than let f = function(…) {…};. Function Declarations are more "eye-catching".
 …But if a Function Declaration does not suit us for some reason, or we need a conditional declaration (we’ve just seen an example), then Function Expression should be used.
 
-# 
+# Arrow functions - basics
+
+- It is a shorter way to define a function in javascript. Syntax is as below.
+```javascript
+let func_name = (arg1, arg2, ......argN) => expression;
+```
+- If there are no arguments, parentheses must be empty and present.
+```javascript
+let sayHi = () => alert("Hello there!");
+sayHi();
+```
+- An example of arrow functions.
+```javascript
+let ask = (question, yes, no) => {(confirm(question)) ? yes() : no();}
+
+ask(
+    "Do you agree?",
+    () => { alert("You agreed."); },
+    () => { alert("You canceled."); }
+);
+```
