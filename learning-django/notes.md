@@ -20,8 +20,10 @@ Create a view in views.py, reference and map the view in urls.py of the app. The
 
 # How to map views in urls.py ?
 
-Add new urls in the below format in the list urlpatterns.
+Add new urls in the below format in the list urlpatterns.  
+```python
 path("route", views.func_name, name="func_name", kwargs)
+```
 kwargs and name is optional.
 
 # Installed APPS defaults in main setting.py
