@@ -22,6 +22,8 @@
 - scheduler
 	Distributes work load.
 
+Official Documentation: https://kubernetes.io/docs/concepts/overview/components/
+
 ## Master-worker relationship
 
 - The master has the kube-API server, etcd, controller and scheduler on it's node.
@@ -31,4 +33,14 @@
 
 - The command line utility to control kubernetes components.
 
-## 
+## Pods
+
+- It is the smallest deployable unit of computing that can be created and managed in kubernetes.
+- A docker container runs inside a POD. Multiple containers can run inside a pod but this should be done only
+  if there is a helper container linked to the main application. Multiple containers in a pod are a rare case.
+  It is usually when 2 or 3 applications need to be tightly coupled to share storage,namespace and network.
+- It is a wrapper around a single container. Kubernetes manages Pods rather than managing the container directly.
+
+Official documentation : https://kubernetes.io/docs/concepts/workloads/pods/
+
+
