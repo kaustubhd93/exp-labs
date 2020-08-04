@@ -9,18 +9,18 @@
 
 ## Kubernetes components 
 
-- API server
-	Acts as a front end to kubernetes. Users, devices, cli all talk to the API server.
-- Kubelet
-	It is the agent that runs on each node of the cluster, to ensure that containers are running as expected.
-- etcd
-	A distributed key value store used to store all the information regarding Master, worker nodes and their resources.
-- container runtime
-	Underlying software that is used to run containers. Generally Docker. There are others as well like rkt and CRI-O.
-- controller
-	Monitors if containers go down and trigger actions accordingly. The brain of monitoring inside kubernetes.
-- scheduler
-	Distributes work load.
+- API server:
+	- Acts as a front end to kubernetes. Users, devices, cli all talk to the API server.
+- Kubelet:
+	- It is the agent that runs on each node of the cluster, to ensure that containers are running as expected.
+- etcd:
+	- A distributed key value store used to store all the information regarding Master, worker nodes and their resources.
+- container runtime:
+	- Underlying software that is used to run containers. Generally Docker. There are others as well like rkt and CRI-O.
+- controller:
+	- Monitors if containers go down and trigger actions accordingly. The brain of monitoring inside kubernetes.
+- scheduler:
+	- Distributes work load.
 
 Official Documentation: https://kubernetes.io/docs/concepts/overview/components/
 
@@ -32,6 +32,12 @@ Official Documentation: https://kubernetes.io/docs/concepts/overview/components/
 ## kubectl
 
 - The command line utility to control kubernetes components.
+- `kubectl cluster-info`
+
+## minikube
+
+- A stand alone single node cluster where all kubernetes services run. In short a sandbox environment.
+- `minikube start|stop|status`
 
 ## Pods
 
@@ -43,4 +49,15 @@ Official Documentation: https://kubernetes.io/docs/concepts/overview/components/
 
 Official documentation : https://kubernetes.io/docs/concepts/workloads/pods/
 
+## Pods with yml
 
+- Every YML file will have a default syntax 
+```
+apiVersion:
+kind:
+metadata:
+
+
+spec:
+```
+- 
