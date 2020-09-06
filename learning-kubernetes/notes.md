@@ -91,3 +91,21 @@ spec:
 - We can even undo the most recent deployment by using the `--record` option while deploying the first time itself. This means, you deploy with `--record` option which starts storing it's rollout history. This is what enables us to rollback to a previous version easily.
 
 > Official Documentation : https://kubernetes.io/docs/concepts/workloads/controllers/deployment/
+
+## Kubernetes Network Model
+
+- Every pod gets it's own IP. This removes the need to create links between pods. We almost never have to deal with mapping container ports to host ports. This creates a model where pods can be treated as VMs from the perspective of port allocation, naming, service discovery, load balancing, application configuration, and migration.
+- Kubernetes imposes the following fundamental requirements on any networking implementation (barring any intentional network segmentation policies):
+	- pods on a node can communicate with all pods on all nodes without NAT
+	- agents on a node (e.g. system daemons, kubelet) can communicate with all pods on that node
+	- For those platforms that support Pods running in the host network (e.g. Linux): pods in the host network of a node can communicate with all pods on all nodes without NAT
+
+> Official Documentation : https://kubernetes.io/docs/concepts/cluster-administration/networking/
+
+## Services
+
+- It is an abstract way to expose an application running on a set of pods as a network service.
+- The set of pods targeted by a service is usually determined by a selector. 
+- Also services are actually used to connect to pods from the outside. We can access the pod via the nodeport which is exposed on the Cluster. The service balances the load among the pods in a random manner.
+
+> Official Documentation : https://kubernetes.io/docs/concepts/services-networking/service/
