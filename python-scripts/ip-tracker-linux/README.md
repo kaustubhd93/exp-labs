@@ -8,6 +8,6 @@
 
 # File location
 
-├── captureIP.sh             --> Place this is in /etc/profile.d
-└── trackclientips.py        --> Ensure you run this as root in background
+├── captureIP.sh             --> Place this is in /etc/profile.d  
+└── trackclientips.py        --> Ensure you run this as root in background  
 
