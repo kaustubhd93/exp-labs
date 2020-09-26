@@ -106,6 +106,9 @@ spec:
 
 - It is an abstract way to expose an application running on a set of pods as a network service.
 - The set of pods targeted by a service is usually determined by a selector. 
-- Also services are actually used to connect to pods from the outside. We can access the pod via the nodeport which is exposed on the Cluster. The service balances the load among the pods in a random manner.
+- Also services are actually used to connect to pods from the outside. We can access the pod via the nodeport which is exposed on the Cluster. The service balances the load among the pods in a random manner. It can serve as a load balancer.
 
 > Official Documentation : https://kubernetes.io/docs/concepts/services-networking/service/
+
+## ClusterIP
+
