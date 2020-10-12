@@ -1,0 +1,27 @@
+---
+- hosts: testservers
+  remote_user: centos
+  tasks:
+        - name: check_connection
+          ping:
+        - name: fetch_ram
+          shell: free -m > /tmp/ansible-freemem
+        - fetch: 
+              src: /tmp/ansible-freemem
+              dest: /home/centos/host-info/
+        - name: fetch_kernel
+          shell: uname -r > /tmp/ansible-kernel
+        - fetch:
+              src: /tmp/ansible-kernel
+              dest: /home/centos/host-info/
+        - name: fetch_cpu
+          shell: lscpu > /tmp/ansible-cpu
+        - fetch:
+              src: /tmp/ansible-cpu
+              dest: /home/centos/host-info/
+        - name: fetch_linux_flavor
+          shell: cat /etc/os-release | grep -w ID | awk -F"=" '{print $2}' > /tmp/ansible-os-flavor
+        - fetch:
+              src: /tmp/ansible-os-flavor
+              dest: /home/centos/host-info/
+
