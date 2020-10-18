@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Pod
+metadata: 
+  name: worker-app-pod
+  labels:
+    name: worker-app-pod
+    app: demo-voting-app
+spec:
+  containers: 
+    - name: worker-app
+      image: kodekloud/examplevotingapp_worker:v2
+      #image: bretfisher/examplevotingapp_worker:java
+      # Container port not required as this does not 
+      # run as a service.
