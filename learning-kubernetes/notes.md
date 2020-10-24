@@ -106,9 +106,19 @@ spec:
 
 - It is an abstract way to expose an application running on a set of pods as a network service.
 - The set of pods targeted by a service is usually determined by a selector. 
+- Just add the labels of `metadata` to the `selector:` section and your pods are mapped to the service.
+
+### NodePort
+
 - Also services are actually used to connect to pods from the outside. We can access the pod via the nodeport which is exposed on the Cluster. The service balances the load among the pods in a random manner. It can serve as a load balancer.
 
 > Official Documentation : https://kubernetes.io/docs/concepts/services-networking/service/
 
-## ClusterIP
+### ClusterIP
+
+- ClusterIP acts as a single entry point for pods that you don't want to expose to the world and want to use inside the cluster only. 
+- A clusterIP will balance the load among the mapped pods in a random manner.
+- This kind is usually used while working with databases or APIs that you dont want to expose to the world and use them internally.
+
+> NOTE: While writing a service, inside metadata the name field should match the hostname you want to connect it to. For example if you are connecting to a database with hostname `redis` then the `name:` field inside the `metadata:` section should be `redis`. If this is not the same it causes dns resolution failure and your app wont be able to connect to the database. 
 
