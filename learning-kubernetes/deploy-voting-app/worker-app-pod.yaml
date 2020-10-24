@@ -8,7 +8,7 @@ metadata:
 spec:
   containers: 
     - name: worker-app
-      image: kodekloud/examplevotingapp_worker:v2
+      image: kodekloud/examplevotingapp_worker:v1
       #image: bretfisher/examplevotingapp_worker:java
       # Container port not required as this does not 
       # run as a service.

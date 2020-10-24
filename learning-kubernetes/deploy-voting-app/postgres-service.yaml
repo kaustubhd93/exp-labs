@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: postgres-db-service
+  name: db
   labels:
     name: postgres-db-service
     app: demo-voting-app
