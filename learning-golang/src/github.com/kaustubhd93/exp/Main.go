@@ -1,7 +1,11 @@
+// Tutorial Source : https://www.youtube.com/watch?v=YS4e4q9oBaU&t=9347s
 // Declare a package main
 package main
 
-import "fmt"
+import (
+	"fmt"
+	// "reflect"
+)
 
 // Import the standard library fmt which is used for formatting text and
 // printing info to the console.
@@ -224,44 +228,216 @@ import "fmt"
 // }
 
 // Example of make function in go
+// func main() {
+// 	//a := make([]int, 4)
+// 	// a := make([]int, 4, 100)
+// 	// fmt.Println(a)
+// 	// fmt.Printf("length of a : %v\n", len(a))
+// 	// fmt.Printf("capacity of a : %v\n", cap(a))
+// 	a := []int{}
+// 	fmt.Println(a)
+// 	fmt.Printf("length of a : %v\n", len(a))
+// 	fmt.Printf("capacity of a : %v\n", cap(a))
+// 	a = append(a, 1)
+// 	fmt.Println(a)
+// 	fmt.Printf("length of a : %v\n", len(a))
+// 	fmt.Printf("capacity of a : %v\n", cap(a))
+// 	a = append(a, 2)
+// 	fmt.Println(a)
+// 	fmt.Printf("length of a : %v\n", len(a))
+// 	fmt.Printf("capacity of a : %v\n", cap(a))
+// 	a = append(a, 3)
+// 	fmt.Println(a)
+// 	fmt.Printf("length of a : %v\n", len(a))
+// 	fmt.Printf("capacity of a : %v\n", cap(a))
+// 	a = append(a, 4)
+// 	fmt.Println(a)
+// 	fmt.Printf("length of a : %v\n", len(a))
+// 	fmt.Printf("capacity of a : %v\n", cap(a))
+// 	a = append(a, 5)
+// 	fmt.Println(a)
+// 	fmt.Printf("length of a : %v\n", len(a))
+// 	fmt.Printf("capacity of a : %v\n", cap(a))
+// 	a = append(a, 6, 7, 8, 9)
+// 	fmt.Println(a)
+// 	fmt.Printf("length of a : %v\n", len(a))
+// 	fmt.Printf("capacity of a : %v\n", cap(a))
+// 	// to add a slice of elements as individual elements
+// 	// adding 3 dots at the end of the slice makes them individual elements
+// 	a = append(a, []int{45, 67, 88, 100}...)
+// 	fmt.Println(a)
+// 	fmt.Printf("length of a : %v\n", len(a))
+// 	fmt.Printf("capacity of a : %v\n", cap(a))
+// }
+
+// Timestamp: 2:37
+
+// // Animal ...
+// type Animal struct {
+// 	Name   string
+// 	Origin string
+// }
+
+// // Bird ...
+// type Bird struct {
+// 	// Bird has animal like characteristics like a name, an origin
+// 	// By just writing the name of the struct here, we can borrow it's pieces.
+// 	// This is not traditional inheritance but can be called as composition
+// 	// To be short it can be called as a "has a" relationship.
+// 	Animal
+// 	SpeedKPH float32
+// 	canFly   bool
+// }
+
+// func main() {
+// 	fmt.Println("------Embedding in Structs-------")
+// 	b := Bird{}
+// 	b.Name = "Ostrich"
+// 	b.Origin = "Africa"
+// 	b.SpeedKPH = 70
+// 	b.canFly = false
+// 	fmt.Println(b)
+// 	fmt.Println(b.Name)
+// 	fmt.Println(b.canFly)
+// 	// While using the literal struct syntax,
+// 	// we will have to use the embedded struct in literal syntax.
+// 	// If declared empty, we can use the embedded pieces directly.
+// 	c := Bird{
+// 		Animal:   Animal{Name: "Peacock", Origin: "India"},
+// 		SpeedKPH: 5,
+// 		canFly:   false,
+// 	}
+// 	fmt.Println(c)
+// 	fmt.Println(c.Name)
+// }
+
+// // Animal ...
+// type Animal struct {
+// 	// If we wanted to validate the length of the characters in the name field.
+// 	// we can use tags. It is the meta data we can use for validation.
+// 	// Refer this https://stackoverflow.com/questions/10858787/what-are-the-uses-for-tags-in-go
+// 	Name   string `required_max: "100"`
+// 	Origin string
+// }
+
+// func main() {
+// 	fmt.Println("--------Tags in structs--------")
+// 	stType := reflect.TypeOf(Animal{})
+// 	field, _ := stType.FieldByName("Name")
+// 	fmt.Println(field.Tag)
+// 	// But what do we do with this tag? This will be decided by the vaildation
+// 	// framework or logic we use. This tag value is meaningless to GO itself.
+// }
+
+// Timestamp : 2:48:03
+// Control flow : if and switch statements
+// func main() {
+// 	fmt.Println("-------------if and switch statements---------")
+// 	pToggle := true
+// 	if pToggle {
+// 		fmt.Println("Flag pToggle is true.")
+// 	}
+// 	statePopulations := map[string]int{
+// 		"Maharashtra": 999999,
+// 		"Goa":         3333,
+// 		"Gujarat":     4232435,
+// 	}
+
+// 	// The semicolon in the if statement first serves as the initializer
+// 	if population, stateExists := statePopulations["Karnataka"]; stateExists {
+// 		fmt.Println(population)
+// 	} else {
+// 		fmt.Println("State does not exist in collection.")
+// 	}
+
+// 	// The scope of population is only valid in that if statment.
+// 	// So below code print statement would give an error.
+// 	//fmt.Println(population)
+// }
+
+// Guess the number game -- hardcoded.
+// func main() {
+// 	fmt.Println("-----------Guess the number-----------")
+// 	correctNumber := 46
+// 	guessNumber := -5
+// 	if guessNumber < 1 || guessNumber > 100 {
+// 		fmt.Println("The no must be between 1 and 100.")
+// 	} else {
+// 		if guessNumber < correctNumber {
+// 			fmt.Println("Too low...")
+// 		}
+// 		if guessNumber > correctNumber {
+// 			fmt.Println("Too high...")
+// 		}
+// 		if guessNumber == correctNumber {
+// 			fmt.Println("You won, Congratulations...")
+// 		}
+// 		fmt.Println(guessNumber == correctNumber)
+// 	}
+// }
+
+// Time stamp : 3:06
+// Switch case
+
+// func main() {
+// 	fmt.Println("-----------------Switch case-----------------")
+// 	isBarryFast := "depends"
+// 	switch isBarryFast {
+// 	case "no":
+// 		fmt.Println("Barry is not that fast.")
+// 	case "yes":
+// 		fmt.Println("Barry is definitely fast")
+// 	default:
+// 		fmt.Println("What do you mean by that ?")
+// 	}
+
+// }
+
+// Timestamp : 3:08
+// Example 2
 func main() {
-	//a := make([]int, 4)
-	// a := make([]int, 4, 100)
-	// fmt.Println(a)
-	// fmt.Printf("length of a : %v\n", len(a))
-	// fmt.Printf("capacity of a : %v\n", cap(a))
-	a := []int{}
-	fmt.Println(a)
-	fmt.Printf("length of a : %v\n", len(a))
-	fmt.Printf("capacity of a : %v\n", cap(a))
-	a = append(a, 1)
-	fmt.Println(a)
-	fmt.Printf("length of a : %v\n", len(a))
-	fmt.Printf("capacity of a : %v\n", cap(a))
-	a = append(a, 2)
-	fmt.Println(a)
-	fmt.Printf("length of a : %v\n", len(a))
-	fmt.Printf("capacity of a : %v\n", cap(a))
-	a = append(a, 3)
-	fmt.Println(a)
-	fmt.Printf("length of a : %v\n", len(a))
-	fmt.Printf("capacity of a : %v\n", cap(a))
-	a = append(a, 4)
-	fmt.Println(a)
-	fmt.Printf("length of a : %v\n", len(a))
-	fmt.Printf("capacity of a : %v\n", cap(a))
-	a = append(a, 5)
-	fmt.Println(a)
-	fmt.Printf("length of a : %v\n", len(a))
-	fmt.Printf("capacity of a : %v\n", cap(a))
-	a = append(a, 6, 7, 8, 9)
-	fmt.Println(a)
-	fmt.Printf("length of a : %v\n", len(a))
-	fmt.Printf("capacity of a : %v\n", cap(a))
-	// to add a slice of elements as individual elements
-	// adding 3 dots at the end of the slice makes them individual elements
-	a = append(a, []int{45, 67, 88, 100}...)
-	fmt.Println(a)
-	fmt.Printf("length of a : %v\n", len(a))
-	fmt.Printf("capacity of a : %v\n", cap(a))
+	fmt.Println("---------------Switch Case------------")
+	// The switch statment cannot have an assignment irrespective
+	// of whether it requires evaluation. To work with
+	// this we can add a semicolon and use the variable again.
+	switch i := 2 + 3; i {
+	case 1, 5, 10:
+		fmt.Println("One, five or ten.")
+	case 2, 6, 9:
+		fmt.Println("Two, six or nine")
+	default:
+		fmt.Println("Another number...")
+	}
+
+	i := 4
+	switch {
+	case i <= 10:
+		fmt.Println("less than or equal to ten.")
+		fallthrough
+	case i < 20:
+		fmt.Println("less than 20.")
+	case i < 5:
+		// This statement does not get printed because fallthrough is logicless
+		// It just gets the next case true. It does not mean that see
+		// if other cases also match.
+		// source : https://golang.org/ref/spec#Fallthrough_statements
+		fmt.Println("less than 5")
+	default:
+		fmt.Println("Greater than 20.")
+	}
+
+	var s interface{} = []int{45, 67, 78}
+	switch s.(type) {
+	case int:
+		fmt.Println("s is an integer.")
+	case float64:
+		fmt.Println("s is a float64")
+	case string:
+		fmt.Println("s is a string.")
+	// For arrays, their size should match to make the case true.
+	case []int:
+		fmt.Println("s is a slice of integers.")
+	default:
+		fmt.Println("s is of another type.")
+	}
 }
