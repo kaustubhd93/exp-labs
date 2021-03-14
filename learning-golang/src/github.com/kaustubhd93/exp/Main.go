@@ -395,49 +395,112 @@ import (
 
 // Timestamp : 3:08
 // Example 2
+// func main() {
+// 	fmt.Println("---------------Switch Case------------")
+// 	// The switch statment cannot have an assignment irrespective
+// 	// of whether it requires evaluation. To work with
+// 	// this we can add a semicolon and use the variable again.
+// 	switch i := 2 + 3; i {
+// 	case 1, 5, 10:
+// 		fmt.Println("One, five or ten.")
+// 	case 2, 6, 9:
+// 		fmt.Println("Two, six or nine")
+// 	default:
+// 		fmt.Println("Another number...")
+// 	}
+
+// 	i := 4
+// 	switch {
+// 	case i <= 10:
+// 		fmt.Println("less than or equal to ten.")
+// 		fallthrough
+// 	case i < 20:
+// 		fmt.Println("less than 20.")
+// 	case i < 5:
+// 		// This statement does not get printed because fallthrough is logicless
+// 		// It just gets the next case true. It does not mean that see
+// 		// if other cases also match.
+// 		// source : https://golang.org/ref/spec#Fallthrough_statements
+// 		fmt.Println("less than 5")
+// 	default:
+// 		fmt.Println("Greater than 20.")
+// 	}
+
+// 	var s interface{} = []int{45, 67, 78}
+// 	switch s.(type) {
+// 	case int:
+// 		fmt.Println("s is an integer.")
+// 	case float64:
+// 		fmt.Println("s is a float64")
+// 	case string:
+// 		fmt.Println("s is a string.")
+// 	// For arrays, their size should match to make the case true.
+// 	case []int:
+// 		fmt.Println("s is a slice of integers.")
+// 	default:
+// 		fmt.Println("s is of another type.")
+// 	}
+// }
+
+// ----------------------- Looping ------------------------
+// There is only one statement in golang for looping and that is for loop
+// func main() {
+// 	fmt.Println("----------------------- Looping ------------------------")
+// 	// Simple looping with step as an expression.
+// 	// for i := 0; i < 5; i = i + 2 {
+// 	// 	fmt.Println(i)
+// 	// }
+// 	// fmt.Println("----------------------- Example 2 ------------------------")
+// 	// Looping when 2 variables are involved.
+// 	// Don't use i++ because it is a statement and not an expression.
+// 	// Multiple assigned expressions are allowed but syntactically two
+// 	// statements like i++,j++ is not allowed.
+// 	// for i, j := 0, 0; j < 5; i, j = i+1, j+1 {
+// 	// 	fmt.Println(i, j)
+// 	// }
+
+// 	// Expressing a while loop with condition:
+// 	// i := 0
+// 	// for i < 5 {
+// 	// 	fmt.Println(i)
+// 	// 	i++
+// 	// }
+// 	// break and continue can be used in the same way it is used in "C"
+// 	// outerloop:
+// 	// 	for i := 1; i <= 3; i++ {
+// 	// 		for j := 1; j <= 3; j++ {
+// 	// 			fmt.Println(i * j)
+// 	// 			if i*j >= 3 {
+// 	// 				// Only the second loop will break, the first one will still be active.
+// 	// 				// break
+// 	// 				// Use a label for the outermost loop and use it in the break statement.
+// 	// 				break outerloop
+// 	// 			}
+// 	// 		}
+// 	// 	}
+// 	fmt.Println("----------------------- Looping on collections ------------------------")
+// 	s := []int{1, 2, 3}
+// 	fmt.Println(s)
+// 	for k, v := range s {
+// 		fmt.Println(k, v)
+// 	}
+// 	sample := "Yo, what's up?"
+// 	// Use the _ operator to get only the value.
+// 	for _, v := range sample {
+// 		fmt.Println(string(v))
+// 	}
+
+// 	statePopulations := map[string]int{
+// 		"Maharashtra": 999999,
+// 		"Goa":         3333,
+// 		"Gujarat":     4232435,
+// 	}
+// 	// Printing only keys is allowed in Go.
+// 	for k := range statePopulations {
+// 		fmt.Println(k)
+// 	}
+// }
+
 func main() {
-	fmt.Println("---------------Switch Case------------")
-	// The switch statment cannot have an assignment irrespective
-	// of whether it requires evaluation. To work with
-	// this we can add a semicolon and use the variable again.
-	switch i := 2 + 3; i {
-	case 1, 5, 10:
-		fmt.Println("One, five or ten.")
-	case 2, 6, 9:
-		fmt.Println("Two, six or nine")
-	default:
-		fmt.Println("Another number...")
-	}
-
-	i := 4
-	switch {
-	case i <= 10:
-		fmt.Println("less than or equal to ten.")
-		fallthrough
-	case i < 20:
-		fmt.Println("less than 20.")
-	case i < 5:
-		// This statement does not get printed because fallthrough is logicless
-		// It just gets the next case true. It does not mean that see
-		// if other cases also match.
-		// source : https://golang.org/ref/spec#Fallthrough_statements
-		fmt.Println("less than 5")
-	default:
-		fmt.Println("Greater than 20.")
-	}
-
-	var s interface{} = []int{45, 67, 78}
-	switch s.(type) {
-	case int:
-		fmt.Println("s is an integer.")
-	case float64:
-		fmt.Println("s is a float64")
-	case string:
-		fmt.Println("s is a string.")
-	// For arrays, their size should match to make the case true.
-	case []int:
-		fmt.Println("s is a slice of integers.")
-	default:
-		fmt.Println("s is of another type.")
-	}
+	fmt.Println("------------------ Defer ------------------------")
 }
