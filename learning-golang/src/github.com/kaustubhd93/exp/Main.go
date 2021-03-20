@@ -587,7 +587,39 @@ import (
 // 	fmt.Println("Done panicking.")
 // }
 
-func main() {
-	fmt.Println("------------Pointers--------------")
+// Pointers
+// func main() {
+// 	fmt.Println("------------Pointers--------------")
+// 	// var a int = 42
+// 	// // b is not holding any value, it points to the memory address of a.
+// 	// var b *int = &a
+// 	// fmt.Println(a, b)
+// 	// fmt.Println(a, *b)
+// 	// *b = 10
+// 	// fmt.Println(a, *b)
 
+// 	// a := [3]int{1, 2, 3}
+// 	// b := &a[0]
+// 	// d := &a[2]
+// 	// c := &a[1]
+// 	// // Go does not allow pointer arithmatic
+// 	// // c := &a[1] - 4
+// 	// fmt.Println(a, *b, *c, *d)
+// 	// fmt.Printf("%T %T %T %T\n", a, b, c, d)
+// 	// fmt.Println(*c)
+// 	// fmt.Println(*d)
+
+// 	a := []int{1, 2, 3}
+// 	b := a
+// 	fmt.Println(a, b)
+// 	a[1] = 56
+// 	// A slice doesnt hold the actualy value of the array unlike arrays which hold values
+// 	// and the size. A slices is a pointer to the first element of the sequence.
+// 	fmt.Println(a, b)
+// 	// Similar behaviour is observed in maps.
+// }
+
+// Functions
+func main() {
+	fmt.Println("------------Functions--------------")
 }
