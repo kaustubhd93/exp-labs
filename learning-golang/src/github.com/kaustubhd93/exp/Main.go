@@ -4,6 +4,9 @@ package main
 
 import (
 	"fmt"
+	// "net/http"
+	//"log"
+	// "io/ioutil"
 	// "reflect"
 )
 
@@ -501,6 +504,90 @@ import (
 // 	}
 // }
 
+// func main() {
+// 	fmt.Println("------------------ Defer ------------------------")
+// 	// Below statements are printed in reverse order.
+// 	// the defer statement works differently.
+// 	// Each time a "defer" statement executes, the function value and parameters
+// 	// to the call are evaluated as usual and saved anew but the actual function is
+// 	// not invoked. Instead, deferred functions are invoked immediately before the
+// 	// surrounding function returns, in the reverse order they were deferred.
+// 	// https://golang.org/ref/spec#Defer_statements
+// 	defer fmt.Println("start")
+// 	defer fmt.Println("middle")
+// 	defer fmt.Println("end")
+// }
+
+// func main() {
+// 	fmt.Println("------------------ Defer ------------------------")
+// 	res, err := http.Get("https://www.google.co.in/robots.txt")
+// 	if err != nil {
+// 		fmt.Println("Error detected...")
+// 		log.Fatal(err)
+// 	}
+// 	// If you want the resource to be open because
+// 	// you may want to process something the string in this case
+// 	// to filter out the stuff you need. We can use defer statement
+// 	// here to close the resource whenver you are done with all
+// 	// processing automatically.
+// 	defer res.Body.Close()
+// 	robots, err := ioutil.ReadAll(res.Body)
+// 	// res.Body.Close()
+// 	if err != nil {
+// 		log.Fatal(err)
+// 	}
+// 	fmt.Printf("%s", robots)
+// }
+
+// func main() {
+// 	fmt.Println("------------------ Defer ------------------------")
+// 	a := "start"
+// 	defer fmt.Println(a)
+// 	a = "end"
+// 	defer fmt.Println(a)
+// 	// you think "a" will result to "end" because the by the time
+// 	// but it doesn't work that way. defer evaulates the function
+// 	// but invokes it only before the surrounding function is going to exit.
+// }
+
+// func main() {
+// 	fmt.Println(".............Panic and recover..........")
+// 	// a, b := 1, 0
+// 	// c := a / b
+// 	// //panic("Something doesn't seem right...")
+// 	// fmt.Println(c)
+
+// 	// http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+// 	// 	w.Write([]byte("Hello there..."))
+// 	// })
+// 	// // If we dont use the panic statement and run the code
+// 	// //http.ListenAndServe(":8080", nil)
+// 	// err := http.ListenAndServe(":8080", nil)
+// 	// if err != nil {
+// 	// 	panic(err.Error())
+// 	// }
+// 	fmt.Println("start")
+// 	panicker()
+// 	fmt.Println("end")
+// }
+
+// func panicker() {
+// 	fmt.Println("About to panic")
+// 	// Anonymous function.
+// 	defer func() {
+// 		if err := recover(); err != nil {
+// 			log.Println("Error : ", err)
+// 			// Rethrow the panic if you know you cannot handle this error at runtime.
+// 			// panic(err)
+// 		}
+// 	}()
+// 	// Above function which is deferred will be executed just before panicking
+// 	panic("Something went wrong here...")
+// 	// Execution will never reach below
+// 	fmt.Println("Done panicking.")
+// }
+
 func main() {
-	fmt.Println("------------------ Defer ------------------------")
+	fmt.Println("------------Pointers--------------")
+
 }
