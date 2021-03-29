@@ -613,13 +613,127 @@ import (
 // 	b := a
 // 	fmt.Println(a, b)
 // 	a[1] = 56
-// 	// A slice doesnt hold the actualy value of the array unlike arrays which hold values
+// 	// A slice doesn't hold the actual value of the array unlike arrays which hold values
 // 	// and the size. A slices is a pointer to the first element of the sequence.
 // 	fmt.Println(a, b)
 // 	// Similar behaviour is observed in maps.
 // }
 
 // Functions
+// Timestamp : 04:21:00
 func main() {
-	fmt.Println("------------Functions--------------")
+	// fmt.Println("--------------- Functions ------------------")
+	// fmtMessage("Anagha", "What's up?", 4)
+
+	// greeting := "Hello"
+	// name := "Anagha"
+	// sayGreeting(&greeting, &name)
+	// fmt.Println(name)
+
+	// Passing Variadic parameters
+	// In case of multiple arguments, keep the variadic parameters at the end.
+	// s := sum("The result is : ", 1, 2, 3, 4, 5)
+	// fmt.Println(s)
+	// Passing pointers for the same.
+	// s := sum("The result is : ", 1, 2, 3, 4, 5)
+	// fmt.Println("The result is :", *s)
+
+	// Example for multiple return types.
+	// d, err := divide(1, 0)
+	// if err != nil {
+	// 	fmt.Println(err)
+	// 	return
+	// }
+	// fmt.Println(d)
+
+	// Example for anonymous functions
+	// for i := 0; i < 5; i++ {
+	// 	// It is standard practice to pass i as the parameter so that
+	// 	// it behaves properly as expected in case the function is executed
+	// 	// in asynchronous mode.
+	// 	func(i int) {
+	// 		fmt.Println(i)
+	// 	}(i)
+	// }
+
+	// var divide func(float64, float64) (float64, error)
+	// divide = func(a, b float64) (float64, error) {
+	// 	if b == 0.0 {
+	// 		return 0.0, fmt.Errorf("Cannot divide by zero.")
+	// 	} else {
+	// 		return a / b, nil
+	// 	}
+	// }
+	// d, err := divide(5.0, 0.0)
+	// if err != nil {
+	// 	fmt.Println(err)
+	// 	return
+	// }
+	// fmt.Println(d)
+
+	g := greeter{
+		greeting: "Hello",
+		name:     "Sarah",
+	}
+	g.greet()
+	fmt.Println("The new name is :", g.name)
+
+}
+
+// We can define arguments with the same datatype only once in a consecutive order
+// the compiler will infer the individual data type.
+func fmtMessage(name, msg string, assignmts_nos int) {
+	fmt.Println("-----------------------------------")
+	fmt.Println("***********************************")
+	fmt.Println("Hey " + name + "! " + msg)
+	fmt.Println("Are you done with those " + fmt.Sprint(assignmts_nos) + " assignments ?")
+	fmt.Println("***********************************")
+	fmt.Println("-----------------------------------")
+}
+
+// Passing pointers directly can save memory and also make your program more efficient.
+func sayGreeting(greeting, name *string) {
+	fmt.Println(*greeting, *name)
+	*name = "Madhura"
+	fmt.Println(*name)
+}
+
+// Variadic parameters.
+// The int after the function definition is required for setting the data type of the return variable
+func sum(msg string, values ...int) *int {
+	// fmt.Println(values)
+	// fmt.Printf("%T\n", values)
+	result := 0
+	for _, v := range values {
+		result += v
+	}
+	// fmt.Println(msg, result)
+	// return result
+
+	// In other languages the local stack of a function is destroyed when the function is done
+	// executing. Golang saves this on a shared memory(heap memory) before destroying the local stack
+	return &result
+}
+
+// Multiple return parameters.
+func divide(a, b float64) (float64, error) {
+	if b == 0.0 {
+		return 0.0, fmt.Errorf("Denominator cannot be zero")
+	}
+	return a / b, nil
+}
+
+type greeter struct {
+	greeting string
+	name     string
+}
+
+// Below statement is a method not a function.
+// A function is called a method when it operates within a defined context.
+// This method below will print out elements inside the struct if assigned.
+func (res *greeter) greet() {
+	fmt.Println(res.greeting, res.name)
+	// We can also pass the reference for changing the actual value itself
+	// rather than it's copy.
+	res.name = "Anagha"
 }
