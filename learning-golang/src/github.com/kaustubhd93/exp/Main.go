@@ -621,64 +621,64 @@ import (
 
 // Functions
 // Timestamp : 04:21:00
-func main() {
-	// fmt.Println("--------------- Functions ------------------")
-	// fmtMessage("Anagha", "What's up?", 4)
+// func main() {
+// 	// fmt.Println("--------------- Functions ------------------")
+// 	// fmtMessage("Anagha", "What's up?", 4)
 
-	// greeting := "Hello"
-	// name := "Anagha"
-	// sayGreeting(&greeting, &name)
-	// fmt.Println(name)
+// 	// greeting := "Hello"
+// 	// name := "Anagha"
+// 	// sayGreeting(&greeting, &name)
+// 	// fmt.Println(name)
 
-	// Passing Variadic parameters
-	// In case of multiple arguments, keep the variadic parameters at the end.
-	// s := sum("The result is : ", 1, 2, 3, 4, 5)
-	// fmt.Println(s)
-	// Passing pointers for the same.
-	// s := sum("The result is : ", 1, 2, 3, 4, 5)
-	// fmt.Println("The result is :", *s)
+// 	// Passing Variadic parameters
+// 	// In case of multiple arguments, keep the variadic parameters at the end.
+// 	// s := sum("The result is : ", 1, 2, 3, 4, 5)
+// 	// fmt.Println(s)
+// 	// Passing pointers for the same.
+// 	// s := sum("The result is : ", 1, 2, 3, 4, 5)
+// 	// fmt.Println("The result is :", *s)
 
-	// Example for multiple return types.
-	// d, err := divide(1, 0)
-	// if err != nil {
-	// 	fmt.Println(err)
-	// 	return
-	// }
-	// fmt.Println(d)
+// 	// Example for multiple return types.
+// 	// d, err := divide(1, 0)
+// 	// if err != nil {
+// 	// 	fmt.Println(err)
+// 	// 	return
+// 	// }
+// 	// fmt.Println(d)
 
-	// Example for anonymous functions
-	// for i := 0; i < 5; i++ {
-	// 	// It is standard practice to pass i as the parameter so that
-	// 	// it behaves properly as expected in case the function is executed
-	// 	// in asynchronous mode.
-	// 	func(i int) {
-	// 		fmt.Println(i)
-	// 	}(i)
-	// }
+// 	// Example for anonymous functions
+// 	// for i := 0; i < 5; i++ {
+// 	// 	// It is standard practice to pass i as the parameter so that
+// 	// 	// it behaves properly as expected in case the function is executed
+// 	// 	// in asynchronous mode.
+// 	// 	func(i int) {
+// 	// 		fmt.Println(i)
+// 	// 	}(i)
+// 	// }
 
-	// var divide func(float64, float64) (float64, error)
-	// divide = func(a, b float64) (float64, error) {
-	// 	if b == 0.0 {
-	// 		return 0.0, fmt.Errorf("Cannot divide by zero.")
-	// 	} else {
-	// 		return a / b, nil
-	// 	}
-	// }
-	// d, err := divide(5.0, 0.0)
-	// if err != nil {
-	// 	fmt.Println(err)
-	// 	return
-	// }
-	// fmt.Println(d)
+// 	// var divide func(float64, float64) (float64, error)
+// 	// divide = func(a, b float64) (float64, error) {
+// 	// 	if b == 0.0 {
+// 	// 		return 0.0, fmt.Errorf("Cannot divide by zero.")
+// 	// 	} else {
+// 	// 		return a / b, nil
+// 	// 	}
+// 	// }
+// 	// d, err := divide(5.0, 0.0)
+// 	// if err != nil {
+// 	// 	fmt.Println(err)
+// 	// 	return
+// 	// }
+// 	// fmt.Println(d)
 
-	g := greeter{
-		greeting: "Hello",
-		name:     "Sarah",
-	}
-	g.greet()
-	fmt.Println("The new name is :", g.name)
+// 	g := greeter{
+// 		greeting: "Hello",
+// 		name:     "Sarah",
+// 	}
+// 	g.greet()
+// 	fmt.Println("The new name is :", g.name)
 
-}
+// }
 
 // We can define arguments with the same datatype only once in a consecutive order
 // the compiler will infer the individual data type.
@@ -736,4 +736,15 @@ func (res *greeter) greet() {
 	// We can also pass the reference for changing the actual value itself
 	// rather than it's copy.
 	res.name = "Anagha"
+}
+
+// ------------------ Interfaces -------------------
+func main() {
+	fmt.Println("--------------- Interfaces ---------------")
+
+}
+
+// Interface describes behaviour. It doesn't contain any datatype.
+type Writer interface {
+	write([]byte)
 }

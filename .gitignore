@@ -4,3 +4,5 @@ learning-flask-appbuilder/app.db
 learning-django/sampleapp/sampleapp/confidential.py
 *.pyc
 *.sqlite3
+.terraform
+*tfstate*
