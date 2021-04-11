@@ -4,6 +4,7 @@ package main
 
 import (
 	"fmt"
+	"sync"
 	// "net/http"
 	//"log"
 	// "io/ioutil"
@@ -738,13 +739,52 @@ func (res *greeter) greet() {
 	res.name = "Anagha"
 }
 
-// ------------------ Interfaces -------------------
-func main() {
-	fmt.Println("--------------- Interfaces ---------------")
-
+func checkMode(mode string) {
+	for i := 0; i < 3; i++ {
+		fmt.Println(mode, " :: ", i)
+	}
 }
 
-// Interface describes behaviour. It doesn't contain any datatype.
-type Writer interface {
-	write([]byte)
+var wg = sync.WaitGroup{}
+
+// ------------------ Goroutines -------------------
+func main() {
+	fmt.Println("--------------- Goroutines ---------------")
+	// mode := "direct"
+	// checkMode(mode)
+
+	// go checkMode("goroutine")
+
+	// go func(msg string) {
+	// 	fmt.Println(msg)
+	// }("inline_func_call")
+
+	// go checkMode(mode)
+	// mode = "isaltered"
+	// time.Sleep(10 * time.Millisecond)
+	// fmt.Println("Done...")
+
+	// The go routine prepares the execution thread but doesnt give any attention to it
+	// immediately. The main function still keeps executing. This is the reason why
+	// the variable gets a new value while the function is executing the print statement.
+	msg := "Hello"
+	wg.Add(2)
+	go func() {
+		fmt.Println(msg, "parameter not passed")
+		// Done decreaments the wait group counter by 1.
+		wg.Done()
+	}()
+	// But when you pass a parameter to the same function and use a goroutine.
+	// It takes the current value passed but does not execute it.
+	go func(message string) {
+		fmt.Println(message, "parameter passed")
+		wg.Done()
+	}(msg)
+	msg = "world"
+
+	// time.Sleep(100 * time.Millisecond)
+
+	// In real world scenarios, we cannot use a forceful delay statement. In those cases
+	// we can use waitgroups.
+	wg.Wait()
 }

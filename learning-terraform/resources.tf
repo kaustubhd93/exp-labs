@@ -28,3 +28,5 @@ resource "aws_instance" "poc" {
       "mode_of_creation" = "terraform"
     }
 }
+
+# Timestamp : 54:46
