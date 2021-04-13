@@ -4,6 +4,7 @@ package main
 
 import (
 	"fmt"
+	"runtime"
 	"sync"
 	// "net/http"
 	//"log"
@@ -745,46 +746,86 @@ func checkMode(mode string) {
 	}
 }
 
+func sayHello() {
+	fmt.Println("Hello there : # ", counter)
+	m.RUnlock()
+	wg.Done()
+}
+
+func incrementCounter() {
+	counter++
+	m.Unlock()
+	wg.Done()
+}
+
 var wg = sync.WaitGroup{}
+var counter int = 0
+var m = sync.RWMutex{}
 
 // ------------------ Goroutines -------------------
+// func main() {
+// 	fmt.Println("--------------- Goroutines ---------------")
+// 	// mode := "direct"
+// 	// checkMode(mode)
+
+// 	// go checkMode("goroutine")
+
+// 	// go func(msg string) {
+// 	// 	fmt.Println(msg)
+// 	// }("inline_func_call")
+
+// 	// go checkMode(mode)
+// 	// mode = "isaltered"
+// 	// time.Sleep(10 * time.Millisecond)
+// 	// fmt.Println("Done...")
+
+// 	// The go routine prepares the execution thread but doesnt give any attention to it
+// 	// immediately. The main function still keeps executing. This is the reason why
+// 	// the variable gets a new value while the function is executing the print statement.
+// 	msg := "Hello"
+// 	wg.Add(2)
+// 	go func() {
+// 		fmt.Println(msg, "parameter not passed")
+// 		// Done decreaments the wait group counter by 1.
+// 		wg.Done()
+// 	}()
+// 	// But when you pass a parameter to the same function and use a goroutine.
+// 	// It takes the current value passed but does not execute it.
+// 	go func(message string) {
+// 		fmt.Println(message, "parameter passed")
+// 		wg.Done()
+// 	}(msg)
+// 	msg = "world"
+
+// 	// time.Sleep(100 * time.Millisecond)
+
+// 	// In real world scenarios, we cannot use a forceful delay statement. In those cases
+// 	// we can use waitgroups.
+// 	wg.Wait()
+// }
+
+// This below example has multiple race conditions and the result of this program
+// will always be different every time we run it.
 func main() {
-	fmt.Println("--------------- Goroutines ---------------")
-	// mode := "direct"
-	// checkMode(mode)
+	// for i := 0; i < 10; i++ {
+	// 	wg.Add(2)
+	// 	go sayHello()
+	// 	go incrementCounter()
+	// }
+	// wg.Wait()
 
-	// go checkMode("goroutine")
-
-	// go func(msg string) {
-	// 	fmt.Println(msg)
-	// }("inline_func_call")
-
-	// go checkMode(mode)
-	// mode = "isaltered"
-	// time.Sleep(10 * time.Millisecond)
-	// fmt.Println("Done...")
-
-	// The go routine prepares the execution thread but doesnt give any attention to it
-	// immediately. The main function still keeps executing. This is the reason why
-	// the variable gets a new value while the function is executing the print statement.
-	msg := "Hello"
-	wg.Add(2)
-	go func() {
-		fmt.Println(msg, "parameter not passed")
-		// Done decreaments the wait group counter by 1.
-		wg.Done()
-	}()
-	// But when you pass a parameter to the same function and use a goroutine.
-	// It takes the current value passed but does not execute it.
-	go func(message string) {
-		fmt.Println(message, "parameter passed")
-		wg.Done()
-	}(msg)
-	msg = "world"
-
-	// time.Sleep(100 * time.Millisecond)
-
-	// In real world scenarios, we cannot use a forceful delay statement. In those cases
-	// we can use waitgroups.
+	// There is a way to handle the race conditions by introducing mutex.
+	// mutex object allows all the processes to use the same resource but
+	// at a time only one process is allowed to use the resource.
+	for i := 0; i < 100; i++ {
+		runtime.GOMAXPROCS(8)
+		wg.Add(2)
+		m.RLock()
+		fmt.Println("go sayHello...")
+		go sayHello()
+		m.Lock()
+		fmt.Println("go incrementcounter...")
+		go incrementCounter()
+	}
 	wg.Wait()
 }
