@@ -21,3 +21,16 @@ resource "provider_servicename" "resource_name" {
     key2 = value2
 }
 ```
+
+## Key obervations
+
+- Terraform does not care about the order in which you have defined resource in the tf file. 
+- We cannot run only one file with terraform like we do with python or general purpose programming files. Below statement will not run, it will just spit out the help page.
+    ```
+    terraform plan filename.tf
+    ```
+- The provider block can exist only in one .tf file. 
+
+## Gotchas
+
+- Do not try to tinker with the terraform.tfstate file.
