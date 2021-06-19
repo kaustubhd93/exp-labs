@@ -9,6 +9,7 @@
 - terraform init  (Download plugins if required)
 - terraform plan  (Check the actual status of the infrastructure and plan what is to be created)
 - terraform apply (Create planned resources.)
+- terraform validate (Validates your tf file configuraion, requires terraform init)
 
 # Creating resorces 
 
@@ -34,3 +35,4 @@ resource "provider_servicename" "resource_name" {
 ## Gotchas
 
 - Do not try to tinker with the terraform.tfstate file.
+- Do not try to copy an existing .terraform folder for a different tf project. It does not recognise it. Run `terraform init` for separate projects. 
