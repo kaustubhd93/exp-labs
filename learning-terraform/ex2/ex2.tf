@@ -1,4 +1,4 @@
-# ext2 : Create a vpc, subnets and it's subnets.
+# ext2 : Create a vpc and it's subnets.
 #Declare providers and region
 terraform {
     required_providers {
