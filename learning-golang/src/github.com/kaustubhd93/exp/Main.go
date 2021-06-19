@@ -817,7 +817,7 @@ func main() {
 	// There is a way to handle the race conditions by introducing mutex.
 	// mutex object allows all the processes to use the same resource but
 	// at a time only one process is allowed to use the resource.
-	for i := 0; i < 100; i++ {
+	for i := 0; i < 10; i++ {
 		runtime.GOMAXPROCS(8)
 		wg.Add(2)
 		m.RLock()
