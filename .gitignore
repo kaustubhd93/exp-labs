@@ -5,4 +5,3 @@ learning-django/sampleapp/sampleapp/confidential.py
 *.pyc
 *.sqlite3
 .terraform
-*tfstate*
