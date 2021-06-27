@@ -1,0 +1,78 @@
+---
+- hosts: all
+  vars:
+    webapp_dir: /app/webapp
+    webapp_backup_dir: /app/backup/
+    recent_backups_to_keep: 5
+  tasks:
+    - name: Check if webapp directory exists, create it otherwise
+      file:
+        path: "{{ webapp_dir }}"
+        state: directory
+        mode: '0755'
+
+    - name: Check if webapp backup directory exists, create it otherwise
+      file:
+        path: "{{ webapp_backup_dir }}"
+        state: directory
+        mode: '0755'
+
+    - name: Check if {{ webapp_dir }} is empty
+      shell: test "$(ls -A "{{ webapp_dir }}")" || echo "empty"
+      register: result_dir_empty
+    - debug: var=result_dir_empty.stdout_lines
+
+    - name: Check if {{ webapp_dir }} is empty
+      command: ls "{{ webapp_dir }}"
+      register: contents      
+
+    - debug: msg="{{ webapp_dir }} directory is empty"
+      when: contents.stdout == ""
+
+    - debug: msg="{{ webapp_dir }} directory is not empty"
+      when: contents.stdout != ""
+      
+    - name: Take backup if {{ webapp_dir }} is not empty
+      archive:
+        path: "{{ webapp_dir }}/*"
+        dest: "{{ webapp_backup_dir }}/webapp_{{ lookup('pipe','date +%Y%m%d%H%M%S') }}.tar.gz"
+        format: gz
+      when: contents.stdout != ""
+
+    - name: Remove existing code if {{ webapp_dir }} is not empty
+      shell: rm -rf "{{ webapp_dir }}"/*
+      # Passing warn: false suppresses Ansible's warning of using rm
+      # Using file module removes the directory as well.
+      args:
+        warn: false
+      when: contents.stdout != ""        
+
+    - name: Deploy new code into {{ webapp_dir }}
+      unarchive:
+        src: "{{ webapp_archive }}"
+        dest: "{{ webapp_dir }}"
+
+    - name: Restart Apache Web server
+      service:
+        name: httpd
+        state: restarted
+      become: yes
+
+    - debug: msg="Cleaning up now"
+
+    - name: Calculating number of backup files for webapp
+      shell: ls {{ webapp_backup_dir }} | wc -l
+      register: file_count
+
+    - debug: msg="Number of backup files for webapp = {{file_count.stdout}}"
+
+    - name: Fetching names of old backup file to remove if any
+      shell: ls -t {{ webapp_backup_dir }} | tail -1
+      register: old_backup_file
+      when: file_count.stdout | int >  recent_backups_to_keep 
+
+    - name: Removing old backup file if any
+      file:
+        path: "{{ webapp_backup_dir }}/{{ old_backup_file.stdout }}"
+        state: absent
+      when: file_count.stdout | int >  recent_backups_to_keep
