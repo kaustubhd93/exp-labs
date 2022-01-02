@@ -1,0 +1,109 @@
+    1  sudo hostnamectl set-hostname --static kube-master-01
+    2  sudo apt update
+    8  ip link
+    9  sudo cat /sys/class/dmi/id/product_uuid
+   10  ip r
+   12  ifconfig 
+   13  lsmod | grep br_netfilter
+   14  locate iptables
+   15  sudo sysctl --system
+   16  sudo modprobe br_netfilter
+   17  lsmod | grep br_netfilter
+   18  sudo sysctl --system
+   19  cat <<EOF | sudo tee /etc/sysctl.d/k8s.conf
+   20  net.bridge.bridge-nf-call-ip6tables = 1
+   21  net.bridge.bridge-nf-call-iptables = 1
+   22  EOF
+   23  sudo sysctl --system
+   24  curl -s https://raw.githubusercontent.com/kaustubhd93/exp-labs/master/shell-scripts/setup-docker.sh | bash
+   25  sudo systemctl status docker
+   26  sudo docker run hello-world
+   27  sudo usermod -aG docker ubuntu
+   28  docker images
+   29  sudo apt-get update && sudo apt-get install -y apt-transport-https curl
+   30  curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add -
+   31  cat <<EOF | sudo tee /etc/apt/sources.list.d/kubernetes.list
+deb https://apt.kubernetes.io/ kubernetes-bionic main
+EOF
+
+   32  sudo apt-get update
+   33  cat /etc/apt/sources.list.d/kubernetes.list
+   34  sudo vim /etc/apt/sources.list.d/kubernetes.list
+   35  sudo apt-get update
+   36  sudo apt-get install -y kubelet kubeadm kubectl
+   37  sudo apt-mark hold kubelet kubeadm kubectl
+   40  kubelet --version
+   41  kubeadm --version
+   42  kubeadm version
+   43  systemctl daemon-reload
+   44  sudo systemctl daemon-reload
+   45  #sudo systemctl restart kubelet
+   46  sudo systemctl status kubelet
+   47  sudo systemctl restart kubelet
+   48  sudo systemctl status kubelet
+   49  ps aux | grep -i kube
+   50  ps aux | grep -i kubelet
+   51  sudo systemctl status kubelet
+   52  ip r
+   53  ifconfig 
+   54  kubeadm init --control-plane-endpoint=172.31.95.104 --apiserver-advertise-address=172.31.95.104
+   55  sudo kubeadm init --control-plane-endpoint=172.31.95.104 --apiserver-advertise-address=172.31.95.104
+   56  mkdir -p $HOME/.kube
+   57  sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
+   58  cd .kube/
+   59  ls
+   60  cat config 
+   61  sudo cat config 
+   62  cd
+   63  sudo chown $(id -u):$(id -g) $HOME/.kube/config
+   64  cat .kube/config 
+   65  ls -lrth .kube/config 
+   66  ls -ld .kube/
+   67  curl https://cloud.weave.works/k8s/net?k8s-version=$(kubectl version | base64 | tr -d '\n')
+   68  kubectl version | base64 | tr -d '\n'
+   69  ls -lrth
+   70  ll
+   71  kubectl apply -f https://cloud.weave.works/k8s/net?k8s-version=$(kubectl version | base64 | tr -d '\n')
+   72  kubectl get pods
+   73  kubectl get pods -n kube-system
+   74  kubectl get all
+   75  kubectl get nodes
+   76  kubectl get pods
+   77  kubectl get all -n kube-systemt
+   78  kubectl get all -n kube-system
+   79  docker ps
+   80  free -m
+   81  w
+   82  free -m
+   83  docker images
+   84  ls -lrth
+   85  git clone https://github.com/kaustubhd93/exp-labs.git
+   86  cd exp-labs/
+   87  cd learning-kubernetes/deploy-voting-app/
+   88  ls -lrth
+   89  kubectl create -f worker-app-pod.yaml
+   90  kubectl get pods
+   91  kubectl delete pod/worker-app-pod
+   92  kubectl get pods
+   93  kubectl create -f voting-app-pod.yaml 
+   94  kubectl create -f voting-app-service.yaml 
+   95  kubectl create -f redis-db-pod.yml 
+   96  kubectl create -f redis-db-service.yaml 
+   97  kubectl create -f postgres-pod.yaml 
+   98  kubectl create -f postgres-service.yaml 
+   99  kubectl create -f worker-app-pod.yaml 
+  100  kubectl get pods
+  101  kubectl get pods,svc
+  102  curl http://10.108.148.181:30008
+  103  kubectl get svc
+  104  kubectl get svc --url
+  105  kubectl cluster-info
+  106  ip r
+  107  ifconfig 
+  108  curl http://172.31.95.104:30008
+  109  telnet 172.31.95.104 30008
+  110  kubectl create -f result-app-pod.yaml 
+  111  kubectl create -f result-app-service.yaml 
+  112  kubectl get pods,svc
+  113  cd
+  114  history

@@ -1,0 +1,40 @@
+    1  sudo hostname set-hostname --static kube-worker-01
+    2  sudo hostnamectl set-hostname --static kube-worker-01
+    3  sudo apt update
+    6  ip link
+    7  sudo cat /sys/class/dmi/id/product_uuid
+    8  sudo cat /sys/class/dmi/id/product_uuid
+    9  ip r
+   10  ifconfig 
+   11  lsmod | grep br_netfilter
+   12  sudo modprobe br_netfilter
+   13  lsmod | grep br_netfilter
+   14  cat <<EOF | sudo tee /etc/sysctl.d/k8s.conf
+   15  net.bridge.bridge-nf-call-ip6tables = 1
+   16  net.bridge.bridge-nf-call-iptables = 1
+   17  EOF
+   18  sudo sysctl --system
+   19  echo $?
+   20  curl -s https://raw.githubusercontent.com/kaustubhd93/exp-labs/master/shell-scripts/setup-docker.sh | bash
+   21  sudo systemctl status docker
+   22  sudo docker run hello-world
+   23  sudo usermod -aG docker ubuntu
+   24  sudo kubeadm join 172.31.95.104:6443 --token token     --discovery-token-ca-cert-hash sha256:long_key
+   25  kubectl get nodes
+   26  w
+   27  free -m
+   28  docker ps
+   29  docker images
+   30  kubectl cluster-inf
+   31  kubectl cluster-info
+   32  kubectl get pods
+   33  docker ps
+   34  curl http://172.31.95.104:30008
+   35  ip r
+   36  ifconfig 
+   37  curl http://172.31.83.144:30008
+   38  history
+
+
+
+
