@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+    name: wrapper-deploy
+    labels:
+        app: wrapper
+        tier: backend
+spec:
+    replicas: 2
+    template:
+        metadata:
+            name: wrapper
+            labels:
+                app: wrapper
+                tier: backend
+        spec:
+            containers:
+                - name: wrapper
+                  image: docker.io/kaustubhdesai/kubepoc:wrapper
+    selector:
+        matchLabels:
+            app: wrapper
+            tier: backend

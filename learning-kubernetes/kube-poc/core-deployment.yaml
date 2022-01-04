@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+    name: core-deploy
+    labels:
+        app: core
+        tier: backend
+spec:
+    replicas: 2
+    template:
+        metadata:
+            name: core
+            labels:
+                app: core
+                tier: backend
+        spec:
+            containers:
+                - name: core
+                  image: docker.io/kaustubhdesai/kubepoc:core
+    selector:
+        matchLabels:
+            app: core
+            tier: backend

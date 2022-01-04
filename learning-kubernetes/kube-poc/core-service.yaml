@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Service
+metadata:
+    # use below name as hostname while interacting with core API service.
+    name: core-service
+spec: 
+    ports:
+        - targetPort: 8080
+          port: 8080
+    selector:
+        app: core
+        tier: backend
