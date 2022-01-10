@@ -1,0 +1,19 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: wrapper-ingress
+  annotations:
+    kubernetes.io/ingress.class: nginx
+  namespace: default
+spec:
+  rules:
+  - host: kube-poc.kdslabs.co.in
+    http: 
+      paths:
+        - path: /
+          pathType: Prefix
+          backend:
+            service:
+              name: wrapper-service-internal
+              port:
+                number: 80
