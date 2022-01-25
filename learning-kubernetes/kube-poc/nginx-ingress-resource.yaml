@@ -10,6 +10,13 @@ spec:
   - host: kube-poc.kdslabs.co.in
     http: 
       paths:
+        - path: /local/
+          pathType: Prefix
+          backend:
+            service:
+              name: local-service-internal
+              port:
+                number: 8081
         - path: /
           pathType: Prefix
           backend:

@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+    name: local-deploy
+    labels:
+        app: local
+        tier: backend
+spec:
+    replicas: 2
+    template:
+        metadata:
+            name: local
+            labels:
+                app: local
+                tier: backend
+        spec:
+            containers:
+                - name: local
+                  image: kube-poc:local
+                  imagePullPolicy: Never
+    selector:
+        matchLabels:
+            app: local
+            tier: backend
