@@ -4,7 +4,7 @@ from flask import Flask, request
 
 app = Flask(__name__)
 
-@app.route("/local/v1/data",methods = ["POST"])
+@app.route("/v1/data",methods = ["POST"])
 def get_data():
     req_body = request.json
     print(req_body)
