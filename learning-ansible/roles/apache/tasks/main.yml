@@ -2,16 +2,19 @@
 - name: Updating apt
   apt:
     update_cache: yes
+  become: yes
   when: ansible_os_family == "Debian"
 
 - name: Installing Apache 
   apt:
     name: apache2
     state: present
+  become: yes
   when: ansible_os_family == "Debian"
 
 - name: Installing Apache
   yum: 
     name: httpd
     state: present
+  become: yes
   when: ansible_os_family == "Redhat"
