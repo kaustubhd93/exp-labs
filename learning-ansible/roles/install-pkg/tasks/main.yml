@@ -1,0 +1,20 @@
+---
+- name: Updating Repositories
+  apt:
+    update_cache: yes
+  become: yes
+  when: ansible_os_family == "Debian"
+
+- name: Installing Package
+  apt:
+    name: "{{ package }}"
+    state: present
+  become: yes
+  when: ansible_os_family == "Debian"
+
+- name: Installing Package
+  yum: 
+    name: "{{ package }}"
+    state: present
+  become: yes
+  when: ansible_os_family == "RedHat"

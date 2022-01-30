@@ -1,6 +1,14 @@
 ---
 - hosts: all
   tasks:
+    - name: Print OS Family
+      debug: msg="OS family -> {{ ansible_facts['os_family'] }}"
+    # - name: Install Webserver
+    #   include_role: 
+    #     name: apache
+
     - name: Install Webserver
       include_role: 
-        name: apache
+        name: install-pkg
+      vars:
+        package: "httpd"
