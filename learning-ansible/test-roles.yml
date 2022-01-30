@@ -1,0 +1,6 @@
+---
+- hosts: all
+  tasks:
+    - name: Install Webserver
+      include_role: 
+        name: apache
