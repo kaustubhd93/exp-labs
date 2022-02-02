@@ -18,6 +18,18 @@ spec:
                 - name: local
                   image: kube-poc:local
                   imagePullPolicy: Never
+                  env:
+                      - name: CLIENT_ID
+                        valueFrom:
+                            secretKeyRef:
+                                name: secrets
+                                key: client_id
+                      - name: SCOPE
+                        valueFrom:
+                            configMapRef:
+                                name: config
+                                key: scope
+
     selector:
         matchLabels:
             app: local
