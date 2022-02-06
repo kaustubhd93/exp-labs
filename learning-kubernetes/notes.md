@@ -11,23 +11,25 @@
 
 - API server:
 	- Acts as a front end to kubernetes. Users, devices, cli all talk to the API server.
-- Kubelet:
-	- It is the agent that runs on each node of the cluster, to ensure that containers are running as expected.
 - etcd:
 	- A distributed key value store used to store all the information regarding Master, worker nodes and their resources.
 - container runtime:
-	- Underlying software that is used to run containers. Generally Docker. There are others as well like rkt and CRI-O.
+	- Underlying software that is used to run containers. Generally Docker. There are others as well like containerd, rkt and CRI-O.
 - controller:
 	- Monitors if containers go down and trigger actions accordingly. The brain of monitoring inside kubernetes.
 - scheduler:
 	- Distributes work load.
+- kube-proxy:
+	- runs on all worker nodes, enables communication between services within the cluster by maintaining network rules on worker nodes. These network rules allow network communication to your pods from network sessions inside or outside of your cluster.
+- Kubelet:
+	- It is the agent that runs on each node of the cluster, to ensure that containers are running as expected.
 
 Official Documentation: https://kubernetes.io/docs/concepts/overview/components/
 
 ## Master-worker relationship
 
 - The master has the kube-API server, etcd, controller and scheduler on it's node.
-- The worker has container run time and the kubelet agent running.
+- The worker has container run time, kube-proxy and the kubelet agent running.
 
 ## kubectl
 
