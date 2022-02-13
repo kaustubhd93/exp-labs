@@ -122,5 +122,21 @@ spec:
 - A clusterIP will balance the load among the mapped pods in a random manner.
 - This kind is usually used while working with databases or APIs that you dont want to expose to the world and use them internally.
 
-> NOTE: While writing a service, inside metadata the name field should match the hostname you want to connect it to. For example if you are connecting to a database with hostname `redis` then the `name:` field inside the `metadata:` section should be `redis`. If this is not the same it causes dns resolution failure and your app wont be able to connect to the database. 
+> NOTE: While writing a service, inside metadata the name field should match the hostname you want to connect it to. For example if you want to connect to a database with hostname `redis` then the `name:` field inside the `metadata:` section should be `redis`. If this is not the same it causes dns resolution failure and your app wont be able to connect to the database. 
 
+## etcd
+
+- etcd stores all information regarding all componenets of kubernetes and the ones you deploy. 
+- If k8s cluster was created manually, it is deployed as a systemd service. If the cluster was deployed using kubeadm then it is deployed as a pod in the kube-system namespace.
+- Multiple control planes ( multiple masters) will have multiple etcd running in HA.
+
+## scheduler
+
+- It decides which pod should be scheduled on which node by looking at the resource requirements of the pod if defined. 
+- It will first short list the node which will be the best fit for the pod and then the kubelet will start the pod on the decided node. 
+
+## Namespace
+
+- It helps in isolating components like deployments, pods, services, etc. We can use the same HA kubernetes cluster and isolate dev and prod envs using namespaces. 
+- Namespace-based scoping is applicable only for namespaced objects (e.g. Deployments, Services, etc) and not for cluster-wide objects (e.g. StorageClass, Nodes, PersistentVolumes, etc).
+- In order to access any service in another namespace use the domain `<service-name>.<namespace>.svc.cluster.local`. 
