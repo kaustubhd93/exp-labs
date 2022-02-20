@@ -134,9 +134,43 @@ spec:
 
 - It decides which pod should be scheduled on which node by looking at the resource requirements of the pod if defined. 
 - It will first short list the node which will be the best fit for the pod and then the kubelet will start the pod on the decided node. 
+- If there is no scheduler running in k8s, we can manually schedule the pod by specifying the `nodeName` parameter. The Apiserver then creates a binding object for the same
 
 ## Namespace
 
 - It helps in isolating components like deployments, pods, services, etc. We can use the same HA kubernetes cluster and isolate dev and prod envs using namespaces. 
 - Namespace-based scoping is applicable only for namespaced objects (e.g. Deployments, Services, etc) and not for cluster-wide objects (e.g. StorageClass, Nodes, PersistentVolumes, etc).
 - In order to access any service in another namespace use the domain `<service-name>.<namespace>.svc.cluster.local`. 
+
+## Taints and Tolerations
+
+- Let's say if we want to restrict our nodes to run only a specific kind of pod which requires either heavy or light resources, in this case we can `taint` the node with a key-value pair describing what kind of pods will run here. For eg: `app=frontend`. The `taint` command also requires the effect which denotes what the node will do with an incoming pod request. 
+- `kubect taint node node-name <key1>=<value1>:<effect>`
+- `<effect>` can have 3 values : NoSchedule, NoExecute, PreferNoSchedule
+- Tolerations are applied to pods in the below format. Just because a toleration is applied to the pod that doesnt mean it will be scheduled on the tainted node only. It will be scheduled wherever the scheduler wants to schedule according to the scheduling algorithm.
+```
+tolerations:
+- key: "key1"
+  operator: "Equal"
+  value: "value1"
+  effect: "NoSchedule"
+```
+- Untainting a node : `kubectl taint nodes node-name key=value:effect-`. Note the `-` at the end, it means to untaint. 
+
+## Node Affinity
+
+- Imagine your pod requires a lot of resources to run and the nodes available are a combination of large,medium and small w.r.t resources. Using taints and tolerations will not garuntee the placement of the pod. In this case we can use node affinity to make sure these pods are properly placed on the appropriate node. 
+- Node Affinity has 2 types:
+	- `nodeSelector`
+	- `nodeAffinity`
+- `nodeSelector` provides a very simple way to restrict pods to nodes with particular labels. `nodeAffinity` is conceptually similar to `nodeSelector` but `nodeAffinity` allows users to use excpressions. For eg: If you dont want the pod to be scheduled on a small node and you are okay with it being scheduled on either a large or a small node we can use nodeaffinity expressions like this.
+```
+		nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: size
+                operator: NotIn
+                values:
+                - small
+```
