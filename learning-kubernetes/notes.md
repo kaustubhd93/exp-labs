@@ -163,7 +163,7 @@ tolerations:
 - Node Affinity has 2 types:
 	- `nodeSelector`
 	- `nodeAffinity`
-- `nodeSelector` provides a very simple way to restrict pods to nodes with particular labels. `nodeAffinity` is conceptually similar to `nodeSelector` but `nodeAffinity` allows users to use excpressions. For eg: If you dont want the pod to be scheduled on a small node and you are okay with it being scheduled on either a large or a small node we can use nodeaffinity expressions like this.
+- `nodeSelector` provides a very simple way to restrict pods to nodes with particular labels. `nodeAffinity` is conceptually similar to `nodeSelector` but `nodeAffinity` allows users to use excpressions. For eg: If you dont want the pod to be scheduled on a small node and you are okay with it being scheduled on either a large or a medium node we can use nodeaffinity expressions like this.
 ```
 		nodeAffinity:
           requiredDuringSchedulingIgnoredDuringExecution:
@@ -173,4 +173,24 @@ tolerations:
                 operator: NotIn
                 values:
                 - small
+```
+
+## DaemonSet
+
+- A daemonset ensures that all nodes run one copy of the pod. Use case: kube-proxy, fluentd log shipper, etc.
+- The definition of daemonset is similar to ReplicaSet without the `replicas` parameter.
+
+## Static Pods
+
+- Do you ever wonder who his monitoring the kube api-server, controllermanager, scheduler and etcd ? It is actually kubelet that makes sure all these components are always up. 
+- These are static pods. 
+- The kubelet service can deploy pods directly without the api-server. Keep the manifests in a directory(usually /etc/kubernetes/manifests) which the kubelet is configured to read from and kubelet will deploy the static pod on that particular node.
+- kubelet also makes a mirror object which appears in the `kubectl get pods` result. However, you cannot control the pod from kubectl.
+
+## Multiple schedulers
+
+- Sometimes the default scheduler is not enough because your k8s workload may require a different scheduling method. But Why ? > https://www.cncf.io/blog/2020/08/10/why-the-kubernetes-scheduler-is-not-enough-for-your-ai-workloads/
+- We can use a custom scheduler and configure the pod to use this custom scheduler. Add below config to your pod definition file under spec.
+```
+    shedulerName:
 ```
