@@ -194,3 +194,40 @@ tolerations:
 ```
     shedulerName:
 ```
+
+## ConfigMaps
+
+> For plugging in the entire configMap as env variables use below yaml config:
+```
+envFrom:
+  - configMapRef:
+      name: webapp-config-map
+```
+
+## Multiple containers
+
+- A pod can encapsulate an application composed of multiple co-located containers that are tightly coupled and need to share resources. 
+- Pods natively provide 2 kinds of shared resources for their containers: 
+    - network
+    - storage
+- These co-located containers form a single cohesive unit of service—for example, one container serving data stored in a shared volume to the public, while a separate sidecar container refreshes or updates those files. The Pod wraps these containers, storage resources, and an ephemeral network identity together as a single unit.
+- Refer https://kubernetes.io/docs/concepts/workloads/pods/#how-pods-manage-multiple-containers
+- Pods also have initContainers. As the name suggests these are run before the main container starts. They are actually like regular containers except they always run to completion and each initContainer should complete successfully before the next one starts. Refer https://kubernetes.io/docs/concepts/workloads/pods/init-containers/#understanding-init-containers  
+
+> NOTE: Grouping multiple co-located and co-managed containers in a single Pod is a relatively advanced use case. You should use this pattern only in specific instances in which your containers are tightly coupled.
+
+## How to perform OS upgrade on a node in k8s cluster ?
+
+- Sometimes OS upgrades may require restarts or can have longer down times for some OS related reasons. In that case we can perform the below steps. 
+- Drain the node and then perform maintenance activity and get the node back up. Post that uncordon the node which will make it schedulable. Follow these steps
+```
+$ kubectl drain <node_name>
+# You may have to ignore daemonsets
+$ kubectl drain <node_name> --ignore-daemonsets
+```
+- perform maintenance activity. Post that when it is up.
+```
+$ kubectl uncordon <node_name>
+```
+- Before the node is drained, the command first cordons(makes it unschedulable) the node and then drains it. While draining the node it evicts the pod if they are managed by a ReplicationController, ReplicaSet, Deployment. An unmanaged pod will not be evicted by default. You will have to use force option in that case `kubectl drain <node_name> --ignore-daemonsets --force`  
+
