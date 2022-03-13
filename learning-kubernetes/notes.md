@@ -231,3 +231,24 @@ $ kubectl uncordon <node_name>
 ```
 - Before the node is drained, the command first cordons(makes it unschedulable) the node and then drains it. While draining the node it evicts the pod if they are managed by a ReplicationController, ReplicaSet, Deployment. An unmanaged pod will not be evicted by default. You will have to use force option in that case `kubectl drain <node_name> --ignore-daemonsets --force`  
 
+## Cluster upgrades
+
+- Cannot upgrade directly to new version. Have to upgrade minor to minor versions. For eg you cannot jump from 1.11 to 1.13. The cluster have to be upgraded to 1.12 first. 
+- All core k8s components cannot be higher than kube-api server. Kubectl version can be in this range: api_server_version - 1  < kubectl_version > api_server_version + 1
+- etcd's and coredns versioning is maintained separately.
+- Overall process is to bring down the master node first. Upgrade master node, bring it back up and then upgrade the worker nodes
+
+### Strategies to upgrade worker nodes
+
+- bring all down and then bring them all back up 
+- drain one, shift workload on other worker nodes and then upgrade this node. Upgrade one worker node at a time.
+- Add same no of new worker nodes with updated versions of kubeadm,kubelet and kubectl and then drain the old ones.
+
+## Backup and restore 
+
+- `export ETCDCTL_API=3`
+- `etcdctl --endpoints=https://127.0.0.1:2379 --cacert=/etc/kubernetes/pki/etcd/ca.crt --cert=/etc/kubernetes/pki/etcd/server.crt --key=/etc/kubernetes/pki/etcd/server.key snapshot save /opt/snapshot-pre-boot.db`
+- `etcdctl --endpoints=https://127.0.0.1:2379 snapshot restore /opt/snapshot-pre-boot.db --data-dir /var/lib/etcd/data-from-backup`
+- Change the data-dir in manifest yaml in /etc/kubernetes/manifests/ directory.
+
+
