@@ -251,4 +251,11 @@ $ kubectl uncordon <node_name>
 - `etcdctl --endpoints=https://127.0.0.1:2379 snapshot restore /opt/snapshot-pre-boot.db --data-dir /var/lib/etcd/data-from-backup`
 - Change the data-dir in manifest yaml in /etc/kubernetes/manifests/ directory.
 
+## Certificates API
+
+- If a new user wants to access the k8s cluster but you dont want to give access of the master node or the kube-admin user, then this user can generate a csr.
+- This csr can then be approved by the k8s certificates API. This is handled by the controller-manager. 
+- By using kubectl you can create the CSR object and then approve it. 
+    - `kubectl get csr myuser`
+    - `kubectl certificate approve/deny myuser`
 
