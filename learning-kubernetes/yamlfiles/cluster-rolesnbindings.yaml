@@ -1,0 +1,46 @@
+# Use every block separately
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: michelle-storage-admin
+subjects:
+# You can specify more than one "subject"
+- kind: User
+  name: michelle # "name" is case sensitive
+  apiGroup: rbac.authorization.k8s.io
+roleRef:
+  # "roleRef" specifies the binding to a Role / ClusterRole
+  kind: ClusterRole #this must be Role or ClusterRole
+  name: storage-admin # this must match the name of the Role or ClusterRole you wish to bind to
+  apiGroup: rbac.authorization.k8s.io
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  # "namespace" omitted since ClusterRoles are not namespaced
+  name: cluster-role-nodes
+rules:
+- apiGroups: [""]
+  resources: 
+  - "nodes"
+  - "csidrivers"
+  - "csinodes"
+  - "storageclasses"
+  - "volumeattachments"
+  verbs: ["*"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  # "namespace" omitted since ClusterRoles are not namespaced
+  name: storage-admin
+rules:
+- apiGroups: [""]
+  resources: 
+  - "nodes"
+  - "csidrivers"
+  - "csinodes"
+  - "storageclasses"
+  - "volumeattachments"
+  - "persistentvolumes"
+  verbs: ["*"]

@@ -259,3 +259,60 @@ $ kubectl uncordon <node_name>
     - `kubectl get csr myuser`
     - `kubectl certificate approve/deny myuser`
 
+## kubeconfig
+
+- Default location: `~/.kube/config`
+- This also shows which users have access to the cluster. 
+- The same kubeconfig can be used even when you have multiple k8s cluster. 
+- Structure is divided into 3 main components:
+    - clusters
+    - contexts
+    - users
+- `context` ties the user with the cluster it needs access to. At one time, there can only be one context. 
+- Below is what the defaul kubeconfig looks like. It has only one user ie kubernetes-admin
+```
+apiVersion: v1
+clusters:
+- cluster:
+    certificate-authority-data: DATA+OMITTED
+    server: https://master_ip:6443
+  name: kubernetes
+contexts:
+- context:
+    cluster: kubernetes
+    user: kubernetes-admin
+  name: kubernetes-admin@kubernetes
+current-context: kubernetes-admin@kubernetes
+kind: Config
+preferences: {}
+users:
+- name: kubernetes-admin
+  user:
+    client-certificate-data: REDACTED
+    client-key-data: REDACTED
+```
+
+## Authorization
+
+- The Kubernetes authorization server may authorize a request using one of the authorization modes listed below
+  - Node -> A component will have to be in a system:nodes group to be authorized by this mode (eg: kubelet)
+  - ABAC -> Attribute-based access control (Not very modular)
+  - RBAC -> Role-based acccess control (quite similar to IAM roles in AWS, although represented in a different way)
+  - Webhook -> Authorization handled by a 3rd party application
+- Check in the kube-api-server manifest what mode of authorization is being used. A cluster made with `kubeadm` has `--authorization-mode=Node,RBAC` by default. Every request is authorised in the order from left to right if the former denies or doesnt support the authorication type.
+- Every role and rolebinding created is restricted to it's namespace. You may have to create roles with same level of access for different namespaces. 
+- Full documentation : https://kubernetes.io/docs/reference/access-authn-authz/authorization/
+
+### RBAC
+
+- RBAC is the recommended way to manage authorization in k8s. Below components make up RBAC.
+    - Role
+    - RoleBinding
+    - ClusterRole
+    - ClusterRoleBinding
+- Roles are used to restrict access to namespaces. ClusterRoles are not namespaced, level of access granted in this case is across the cluster. 
+- To assign a role to a user/group you can use rolebinding.
+- To assign a clusterRole to a user/group you can use clusterrolebinding.
+- Command to list namespace objects  `kubectl api-resources --namespaced=true`
+- Command to list objects that are not namespaced `kubectl api-resources --namespaced=false`
+
