@@ -316,3 +316,17 @@ users:
 - Command to list namespace objects  `kubectl api-resources --namespaced=true`
 - Command to list objects that are not namespaced `kubectl api-resources --namespaced=false`
 
+### ServiceAccount
+
+- Users can use certificates and rolebindings to get access to the Kubernetes API, but what about applications/bots. This is solved by serviceaccounts
+- By default a pod will have the default serviceAccount configured. ServiceAccount gives a token which can be passed in the `Authorization` header. This token is available as a volumeMount by default at location /var/run/secrets/kubernetes.io/serviceaccount/token. 
+- For your bot/application you can create a custom serviceaccount and plug it to the desired pod by using the `serviceAccountName` spec. 
+- This custom servericeAccount would have to have a rolebinding in order to get access to the k8s resources.
+
+## Network policy
+
+- By default in k8s, all pods can access each other on all ports. The defaul network policy is "Allow all".
+- But in a large cluster where several teams have their own applications it's good to have a network policy to restrict access to critical pods like a database. 
+- Specs defined in the network policy in the list format are evaluated as an OR operation. Multiple specs under one spec are evaluated as an AND operation. 
+> Refer : https://kubernetes.io/docs/concepts/services-networking/network-policies/#networkpolicy-resource
+
