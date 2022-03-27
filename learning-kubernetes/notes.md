@@ -330,3 +330,36 @@ users:
 - Specs defined in the network policy in the list format are evaluated as an OR operation. Multiple specs under one spec are evaluated as an AND operation. 
 > Refer : https://kubernetes.io/docs/concepts/services-networking/network-policies/#networkpolicy-resource
 
+## Storgage : 
+
+## Container Storage interface : 
+
+- It is a standard for exposing arbitrary block and file storage systems to containerized workloads on Container Orchestration Systems(COs) like kubernetes.
+- Using CSI third-party storage providers can write and deploy plugins exposing new storage systems in Kubernetes without ever having to touch the core Kubernetes code.
+
+## Volumes :
+
+- Pods have ephemeral storage by default. Data does not persist across pod restarts or failures.
+- Volumes can help with data persistence. Kubernetes supports many types of volumes. A Pod can use any number of volume types simultaneously. Ephemeral volume types have a lifetime of a pod, but persistent volumes exist beyond the lifetime of a pod. When a pod ceases to exist, Kubernetes destroys ephemeral volumes; however, Kubernetes does not destroy persistent volumes. For any kind of volume in a given pod, data is preserved across container restarts.
+- At its core, a volume is a directory, possibly with some data in it, which is accessible to the containers in a pod. How that directory comes to be, the medium that backs it, and the contents of it are determined by the particular volume type used.
+> Refer : https://kubernetes.io/docs/concepts/storage/volumes/
+
+## PersistentVolumes:
+
+- It is a piece of storage in the cluster that has been provisioned by an administrator or dynamically provisioned using storage classes. It is resource in a cluster just like how a node is a cluster resource.
+- They are volume plugins like Volumes, but their lifecycle is independent of any individual pod that uses the PV. 
+> Refer : https://kubernetes.io/docs/concepts/storage/persistent-volumes/
+
+## PersistentVolumeClaims:
+
+- It is a request for storage by a user. The way pods consume node resources, persistentvolumeclaims consume PV resources. There has to be a 1:1 mapping for pvc and pv. 
+- Requests by pvc should match the stuff that the pv has provisioned. If the capacity requested is lower than the pv available and no other suitable pv is available then the available pv is selected. The remaining capacity is not given to any other pvc.
+> Refer : https://kubernetes.io/docs/concepts/storage/persistent-volumes/
+
+## StorageClasses:
+
+- Usually an administrator provisons a persistent volume and then creates a PVC. After the PVC is in a bound state only then the Pod can use it. This is called satic provisioning. 
+- In real world scenarious, this can become very tedious. For this dynamic provisioning has to be used. StorageClasses can be used to solve this.
+- It removes the need for persistent volumes. You can directly write a PVC using a storage class.
+> Refer : https://kubernetes.io/docs/concepts/storage/storage-classes/
+
