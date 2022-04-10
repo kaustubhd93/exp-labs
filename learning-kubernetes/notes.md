@@ -363,3 +363,12 @@ users:
 - It removes the need for persistent volumes. You can directly write a PVC using a storage class.
 > Refer : https://kubernetes.io/docs/concepts/storage/storage-classes/
 
+## Networking in k8s 
+
+- The creation of network interfaces, attachment and ip address management is handled by the CNI plugin.
+- Every pod launched gets a unique ip address defined in the ip address range setting mentioned with the CNI plugin.
+- Run `kubectl get pods -o wide` to check the ip address assigned to every pod. 
+- If you ever notice the cluster ip addresses assigned to services in k8s, the range of these ip addresses are different than the pod's ip addresses. These IP addresses are virtual and come from a pool of IP range mentioned in api-server manifest file. 
+- So how do pods connect to services internally if the IP is virtual? 
+- It actually goes via kube-proxy. kube-proxy itself has a node's ip address. kube-proxy by default uses the iptables mode which sets up NAT. All these rules are updated with every deployment. 
+> Refer : https://kubernetes.io/docs/concepts/services-networking/service/#configuration
