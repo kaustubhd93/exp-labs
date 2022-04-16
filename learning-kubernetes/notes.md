@@ -371,4 +371,5 @@ users:
 - If you ever notice the cluster ip addresses assigned to services in k8s, the range of these ip addresses are different than the pod's ip addresses. These IP addresses are virtual and come from a pool of IP range mentioned in api-server manifest file. 
 - So how do pods connect to services internally if the IP is virtual? 
 - It actually goes via kube-proxy. kube-proxy itself has a node's ip address. kube-proxy by default uses the iptables mode which sets up NAT. All these rules are updated with every deployment. 
+- Run `sudo iptables -nvL -t nat` to check NAT rules created for k8s services.
 > Refer : https://kubernetes.io/docs/concepts/services-networking/service/#configuration
