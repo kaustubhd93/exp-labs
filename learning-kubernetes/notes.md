@@ -233,7 +233,7 @@ $ kubectl uncordon <node_name>
 
 ## Cluster upgrades
 
-- Cannot upgrade directly to new version. Have to upgrade minor to minor versions. For eg you cannot jump from 1.11 to 1.13. The cluster have to be upgraded to 1.12 first. 
+- Cannot upgrade directly to new version. Have to upgrade minor to minor versions. For eg you cannot jump from 1.11 to 1.13. The cluster has to be upgraded to 1.12 first. 
 - All core k8s components cannot be higher than kube-api server. Kubectl version can be in this range: api_server_version - 1  < kubectl_version > api_server_version + 1
 - etcd's and coredns versioning is maintained separately.
 - Overall process is to bring down the master node first. Upgrade master node, bring it back up and then upgrade the worker nodes
@@ -344,19 +344,19 @@ users:
 - At its core, a volume is a directory, possibly with some data in it, which is accessible to the containers in a pod. How that directory comes to be, the medium that backs it, and the contents of it are determined by the particular volume type used.
 > Refer : https://kubernetes.io/docs/concepts/storage/volumes/
 
-## PersistentVolumes:
+### PersistentVolumes:
 
 - It is a piece of storage in the cluster that has been provisioned by an administrator or dynamically provisioned using storage classes. It is resource in a cluster just like how a node is a cluster resource.
 - They are volume plugins like Volumes, but their lifecycle is independent of any individual pod that uses the PV. 
 > Refer : https://kubernetes.io/docs/concepts/storage/persistent-volumes/
 
-## PersistentVolumeClaims:
+### PersistentVolumeClaims:
 
 - It is a request for storage by a user. The way pods consume node resources, persistentvolumeclaims consume PV resources. There has to be a 1:1 mapping for pvc and pv. 
 - Requests by pvc should match the stuff that the pv has provisioned. If the capacity requested is lower than the pv available and no other suitable pv is available then the available pv is selected. The remaining capacity is not given to any other pvc.
 > Refer : https://kubernetes.io/docs/concepts/storage/persistent-volumes/
 
-## StorageClasses:
+### StorageClasses:
 
 - Usually an administrator provisons a persistent volume and then creates a PVC. After the PVC is in a bound state only then the Pod can use it. This is called satic provisioning. 
 - In real world scenarious, this can become very tedious. For this dynamic provisioning has to be used. StorageClasses can be used to solve this.
@@ -373,3 +373,10 @@ users:
 - It actually goes via kube-proxy. kube-proxy itself has a node's ip address. kube-proxy by default uses the iptables mode which sets up NAT. All these rules are updated with every deployment. 
 - Run `sudo iptables -nvL -t nat` to check NAT rules created for k8s services.
 > Refer : https://kubernetes.io/docs/concepts/services-networking/service/#configuration
+
+## JSON path
+
+Tutorial : https://www.youtube.com/watch?v=XHRsPp6TORo
+
+- kubectl get commands convert the long json output into a short readable format. Sometimes to get internal details we can use kubectl get nodes -o=jsonpath='{query}'
+
