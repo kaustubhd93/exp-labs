@@ -1,0 +1,25 @@
+apiVersion: eksctl.io/v1alpha5
+kind: ClusterConfig
+
+metadata:
+  name: poc-eks
+  region: ap-south-1
+
+# Launch a cluster into an existing VPC. here the API-server endpoint will be public and 
+# worker nodes will be in private.
+vpc:
+  subnets:
+    private:
+      ap-south-1a: { id: }
+      ap-south-1b: { id: }
+
+nodeGroups:
+  - name: ng-poc-eks-1
+    instanceType: t3a.micro
+    desiredCapacity: 1
+    volumeSize: 10
+    privateNetworking: true
+    ssh:
+      allow: true # will use ~/.ssh/id_rsa.pub as the default ssh key
+      publicKeyPath: ~/path_to_file.pub
+
