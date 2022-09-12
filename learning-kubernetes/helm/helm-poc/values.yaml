@@ -80,3 +80,8 @@ nodeSelector: {}
 tolerations: []
 
 affinity: {}
+
+appConfig:
+  dbHost: 10.0.0.34
+  #dbPort: 6379
+  dbName: test

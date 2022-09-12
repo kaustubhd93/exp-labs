@@ -4,5 +4,11 @@ metadata:
     #name: helm-poc-configmap
     name: {{ .Release.Name }}-configmap
 data:
-    db_host: "10.0.0.34"
-    db_port: "6379"
+    #db_host: {{ .Values.appConfig.dbHost }}
+    #db_port: {{ .Values.appConfig.dbPort }}
+    # db_host: {{ quote .Values.appConfig.dbHost }}
+    # db_port: {{ quote .Values.appConfig.dbPort }}
+    db_host: {{ .Values.appConfig.dbHost | quote }}
+    #db_port: {{ default "6379" .Values.appConfig.dbPort | quote }}
+    db_port: {{ .Values.appConfig.dbPort | default "6379" | quote }}
+    db_name: {{ .Values.appConfig.dbName | quote | upper }}

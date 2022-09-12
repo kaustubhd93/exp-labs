@@ -195,6 +195,16 @@ tolerations:
     shedulerName:
 ```
 
+## Monitoring 
+
+- Earlier heapster, got depracated. Now Metrics Server but it is "in memory".
+- You will have to deploy the metrics server explicitly 
+- Commands to check utilisation
+```
+kubectl top node
+kubectl top pod
+```
+
 ## ConfigMaps
 
 > For plugging in the entire configMap as env variables use below yaml config:
