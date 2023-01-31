@@ -44,8 +44,8 @@ resource "aws_instance" "poc" {
 
 
 resource "aws_key_pair" "instance_ssh_key" {
-  key_name = "kd-personal-mum"
-  public_key = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDKudlNV0oiXDrv2X09gZaM6RKZI9a5TNw8VKq5uunITOe0enF1V4imKfMv+HFtu2dh2Yq3IeISmugBbSiruw2hQwjNkF8epawOBzYt4Cas0a0t7tnllXLNhkuXRRJ526fB8FDZbngcZGfDgCy/+J+dUUitLRx71JUS0mjEAApEMk03NN6x25LAL7Db2kj0EWGrYvBKqlYWI1oTZBn5IKJkqhVyiXS7LIl+OZrikAm8it4vjAFCoJESYiGMwcobbH3bKUDOUniLoPyFEf3Iyqr7MpQOpO1VCsyEDJBmJuo4wtVKBrgcMhMPuGJFbDKUmxujpJtnw6Y3rS2xl8/3kmXSDMxfKd/xOOPAEplWxYDbWVwehLouOM9O3K7X6fFw5mrHFrUBgf+hJjCJjnhoI9LfUU5vWULzG08oHfLCbScUQq2HEygoHvejb/k/MHSTzQLEej6HJ/L5J4tuRLQYQU4YBqZi2Xht8l8J8uM3+TfrmV+QgozIInFPUUi9lKQjsbc= kaustubh@techjunkie"
+  key_name = ""
+  public_key = ""
 }
 
 # Timestamp : 54:46
