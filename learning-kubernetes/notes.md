@@ -91,6 +91,12 @@ spec:
 - This is generally done by defining deployments to create Replicasets.
 - Any new changes in the resource defined in the Yaml, deployment controller will create a new set of replica first and then terminate the old one.
 - We can even undo the most recent deployment by using the `--record` option while deploying the first time itself. This means, you deploy with `--record` option which starts storing it's rollout history. This is what enables us to rollback to a previous version easily.
+- Helpful commands
+```
+kubectl rollout status deployment/<deployment_name>
+kubectl rollout history deployment/<deployment_name>
+kubectl rollout undo deployment/<deployment_name>
+```
 
 > Official Documentation : https://kubernetes.io/docs/concepts/workloads/controllers/deployment/
 
@@ -214,6 +220,13 @@ envFrom:
       name: webapp-config-map
 ```
 
+## Secrets
+
+- When a secret is plugged in as a volume, every key becomes a file on the path you mount the volume on. 
+- You can plug in the secret as environment variables also. 
+- They are in encoded(base64) format inside the `data:` field. 
+
+
 ## Multiple containers
 
 - A pod can encapsulate an application composed of multiple co-located containers that are tightly coupled and need to share resources. 
@@ -223,6 +236,7 @@ envFrom:
 - These co-located containers form a single cohesive unit of service—for example, one container serving data stored in a shared volume to the public, while a separate sidecar container refreshes or updates those files. The Pod wraps these containers, storage resources, and an ephemeral network identity together as a single unit.
 - Refer https://kubernetes.io/docs/concepts/workloads/pods/#how-pods-manage-multiple-containers
 - Pods also have initContainers. As the name suggests these are run before the main container starts. They are actually like regular containers except they always run to completion and each initContainer should complete successfully before the next one starts. Refer https://kubernetes.io/docs/concepts/workloads/pods/init-containers/#understanding-init-containers  
+- Also, init containers do not support lifecycle, livenessProbe, readinessProbe, or startupProbe because they must run to completion before the Pod can be ready
 
 > NOTE: Grouping multiple co-located and co-managed containers in a single Pod is a relatively advanced use case. You should use this pattern only in specific instances in which your containers are tightly coupled.
 
