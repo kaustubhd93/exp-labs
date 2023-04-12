@@ -136,6 +136,11 @@ kubectl rollout undo deployment/<deployment_name>
 - If k8s cluster was created manually, it is deployed as a systemd service. If the cluster was deployed using kubeadm then it is deployed as a pod in the kube-system namespace.
 - Multiple control planes ( multiple masters) will have multiple etcd running in HA.
 
+## controller manager
+
+- brain of monitoring inside kubernetes.
+- custom options like "--pod-eviction-timeout,--node-monitor-period,etc" are available in the manifest file.
+
 ## scheduler
 
 - It decides which pod should be scheduled on which node by looking at the resource requirements of the pod if defined. 
@@ -270,7 +275,7 @@ $ kubectl uncordon <node_name>
 
 ## Backup and restore 
 
-- `export ETCDCTL_API=3`
+- Check what version is being used first. If it is 2 the use api version 3 by setting this env variable. `export ETCDCTL_API=3`
 - `etcdctl --endpoints=https://127.0.0.1:2379 --cacert=/etc/kubernetes/pki/etcd/ca.crt --cert=/etc/kubernetes/pki/etcd/server.crt --key=/etc/kubernetes/pki/etcd/server.key snapshot save /opt/snapshot-pre-boot.db`
 - `etcdctl --endpoints=https://127.0.0.1:2379 snapshot restore /opt/snapshot-pre-boot.db --data-dir /var/lib/etcd/data-from-backup`
 - Change the data-dir in manifest yaml in /etc/kubernetes/manifests/ directory.
@@ -403,4 +408,15 @@ users:
 Tutorial : https://www.youtube.com/watch?v=XHRsPp6TORo
 
 - kubectl get commands convert the long json output into a short readable format. Sometimes to get internal details we can use kubectl get nodes -o=jsonpath='{query}'
+
+## Kubernetes admission controllers
+
+- https://www.youtube.com/watch?v=P7QAfjdbogY
+
+## Pod security policy
+
+- built-in admission controller that allows a cluster administrator to control security-sensitive aspects of the Pod specification.
+- not to be confused with pod security context (https://kubernetes.io/docs/tasks/configure-pod-container/security-context/)
+
+
 

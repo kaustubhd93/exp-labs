@@ -14,6 +14,10 @@ provider "aws" {
   region = "ap-south-1"
 }
 
+locals {
+  environment = "dev"
+}
+
 variable "instance_type" {
   type = string
 }
@@ -30,6 +34,13 @@ resource "aws_instance" "tf_inst" {
   tags = {
     Name             = "terraform_poc"
     mode_of_creation = "terraform"
+    environment = local.environment
   }
 }
+
+output "instance_ip_addr" {
+  value = aws_instance.tf_inst.private_ip
+}
+
+# 01:31:33
 

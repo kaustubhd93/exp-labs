@@ -9,6 +9,19 @@
     - core: uses remote procedure calls to communicate with Terraform plugins
     - plugin: exposes an implementation for a specific service, or provisioner 
 
+## local values
+
+- A local value assigns a name to an expression so you can use the name multiple times within a module instead of repeating the expression. 
+- input variables are like function arguments, output variables are like function return values, local values are like a function's temporary local variables.
+
+### Syntax
+
+```
+locals {
+    var_name = expression
+}
+```
+
 # IaC key concepts 
 
 ##  What is infrastructure lifecycle 
@@ -41,7 +54,7 @@
 - terraform plan  (Check the actual status of the infrastructure and plan what is to be created)
 - terraform plan -var-file=filename.tfvars 
 - terraform apply (Create planned resources.)
-- terraform apply -auto-approve
+- terraform apply -auto-approve (Can be used in CICD pipelines)
 - terraform validate (Validates your tf file configuraion, requires terraform init)
 
 # Creating resorces 
@@ -58,7 +71,7 @@ resource "provider_servicename" "resource_name" {
 }
 ```
 
-### input variable
+### input variable syntax
 
 ```
 variable "variable_name" {
