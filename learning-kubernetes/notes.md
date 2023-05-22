@@ -351,6 +351,32 @@ users:
     client-key-data: REDACTED
 ```
 
+## Authentication
+
+- Kubernetes doesnt natively support user management. Can't create users or list them. 
+- All user access is managed by Kube-apiserver.
+- Methods of authentication:
+  - Static password file  (pass this option to kube-apiserver --basic-auth-file=user-details.csv) NOT RECOMMENDED - depracated in 1.19
+  - static token file  (--token-auth-file=user-token-details.csv) NOT RECOMMENDED 
+  - Certificates (commonly used)
+  - indentity services
+- In case where Certificates are being used, etcd has it's own CA, certs for the same are placed in /etc/kubernetes/pki/etcd dir. 
+
+## API groups
+
+- Largely divided into 2. Core(everything under v1) and named APIs
+- Named apis:
+  - /apps
+  - /extensions
+  - /networking.k8s.io
+  - /storage.k8s.io
+  - /authentication.k8s.io
+  - /certificates.k8s.io
+- Run below commands to see all paths.
+  - `kubectl proxy`
+  - `curl -kv http://127.0.0.1:8000`
+
+
 ## Authorization
 
 - The Kubernetes authorization server may authorize a request using one of the authorization modes listed below
@@ -370,10 +396,12 @@ users:
     - ClusterRole
     - ClusterRoleBinding
 - Roles are used to restrict access to namespaces. ClusterRoles are not namespaced, level of access granted in this case is across the cluster. 
+- Resource types are either scoped by the cluster or to a namespace. Namespace-scoped resource type will be deleted when its namespace is deleted.
 - To assign a role to a user/group you can use rolebinding.
 - To assign a clusterRole to a user/group you can use clusterrolebinding.
 - Command to list namespace objects  `kubectl api-resources --namespaced=true`
 - Command to list objects that are not namespaced `kubectl api-resources --namespaced=false`
+- Command to check if a user has permission `kubectl verb resource --as user/group`
 
 ### ServiceAccount
 
@@ -381,6 +409,32 @@ users:
 - By default a pod will have the default serviceAccount configured. ServiceAccount gives a token which can be passed in the `Authorization` header. This token is available as a volumeMount by default at location /var/run/secrets/kubernetes.io/serviceaccount/token. 
 - For your bot/application you can create a custom serviceaccount and plug it to the desired pod by using the `serviceAccountName` spec. 
 - This custom servericeAccount would have to have a rolebinding in order to get access to the k8s resources.
+
+## Security Context
+
+- Security context defines privilege and access control settings for a pod or container.
+- security context at container level overrides the one at pod level. here the `web` container runs with user 1002
+```
+apiVersion: v1
+kind: Pod
+metadata:
+  name: multi-pod
+spec:
+  securityContext:
+    runAsUser: 1001
+    capabilities:
+        add: ["NET_ADMIN", "SYS_TIME"]
+  containers:
+  -  image: ubuntu
+     name: web
+     command: ["sleep", "5000"]
+     securityContext:
+      runAsUser: 1002
+
+  -  image: ubuntu
+     name: sidecar
+     command: ["sleep", "5000"]
+```
 
 ## Network policy
 
