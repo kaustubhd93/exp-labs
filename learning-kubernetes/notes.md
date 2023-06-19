@@ -475,17 +475,34 @@ spec:
 - In real world scenarious, this can become very tedious. For this dynamic provisioning has to be used. StorageClasses can be used to solve this.
 - It removes the need for persistent volumes. You can directly write a PVC using a storage class.
 > Refer : https://kubernetes.io/docs/concepts/storage/storage-classes/
+- Local volumes do not currently support dynamic provisioning, however a storageclass should still be created to delay volume binding until pod scheduling. Delaying volume binding allows the scheduler to consider all of a Pod's scheduling constraints when choosing an appropriate PersistentVolume for a PersistentVolumeClaim.
+```
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: local-storage
+provisioner: kubernetes.io/no-provisioner
+volumeBindingMode: WaitForFirstConsumer
+```
 
 ## Networking in k8s 
 
 - The creation of network interfaces, attachment and ip address management is handled by the CNI plugin.
-- Every pod launched gets a unique ip address defined in the ip address range setting mentioned with the CNI plugin.
+- To check what CNI plugin is being used, look into directory `/etc/cni/net.d`. You will find something here, check the conf file to check what plugin is being used.
+- Every pod launched gets a unique ip address defined in the ip address range setting mentioned with the CNI plugin in `/etc/cni/net.d`. If its not a part of the config file then check the pod logs of the cni plugin. 
 - Run `kubectl get pods -o wide` to check the ip address assigned to every pod. 
 - If you ever notice the cluster ip addresses assigned to services in k8s, the range of these ip addresses are different than the pod's ip addresses. These IP addresses are virtual and come from a pool of IP range mentioned in api-server manifest file. 
 - So how do pods connect to services internally if the IP is virtual? 
 - It actually goes via kube-proxy. kube-proxy itself has a node's ip address. kube-proxy by default uses the iptables mode which sets up NAT. All these rules are updated with every deployment. 
+- The service IP range should be different from the node or pod ip address range.
 - Run `sudo iptables -nvL -t nat` to check NAT rules created for k8s services.
 > Refer : https://kubernetes.io/docs/concepts/services-networking/service/#configuration
+
+## DNS
+
+- For coredns settings, checkout the `coredns` configmap under kube-system namespace.
+- `kubelet` sets the nameserver in /etc/resolv.conf for all the pods.
+- There is also a `search` entry added to pod's resolv.conf `search <namespace>.svc.cluster.local svc.cluster.local cluster.local`. Only service names are resolved directly, if you are trying to connect to a POD, you will have to specify it's fqdn x-x-x-x.<namespace>.pod.cluster.local
 
 ## JSON path
 
