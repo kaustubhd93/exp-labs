@@ -189,6 +189,7 @@ tolerations:
     - requiredDuringSchedulingIgnoredDuringExecution: Scheduler will not schedule any pods if the criteria of the node doesnt match  
     - preferredDuringSchedulingIgnoredDuringExecution: Scheduler will try to look for a match first if not found will schedule it any available node.  
     - requiredDuringSchedulingrequiredDuringExecution (Not implemented yet)  
+- Node affinity is a property of Pods that attracts them to a set of nodes (either as a preference or a hard requirement). Taints are the opposite -- they allow a node to repel a set of pods. Tolerations are applied to pods. Tolerations allow the scheduler to schedule pods with matching taints.
 
 ## DaemonSet
 
@@ -504,11 +505,20 @@ volumeBindingMode: WaitForFirstConsumer
 - `kubelet` sets the nameserver in /etc/resolv.conf for all the pods.
 - There is also a `search` entry added to pod's resolv.conf `search <namespace>.svc.cluster.local svc.cluster.local cluster.local`. Only service names are resolved directly, if you are trying to connect to a POD, you will have to specify it's fqdn x-x-x-x.<namespace>.pod.cluster.local
 
+## ingress 
+
+- `ingress controller`: The actual component that performs the request routing.
+- `ingress resource`: a definition file with Rules for request routing.
+- `ingress resource` is namespaced. 
+
 ## JSON path
 
 Tutorial : https://www.youtube.com/watch?v=XHRsPp6TORo
 
-- kubectl get commands convert the long json output into a short readable format. Sometimes to get internal details we can use kubectl get nodes -o=jsonpath='{query}'
+- kubectl get commands convert the long json output into a short readable format. Sometimes to get internal details we can use `kubectl get nodes -o=jsonpath='{query}'`. Where query format is `$.root_key.further_json_structure`
+- Refer https://kubernetes.io/docs/reference/kubectl/jsonpath/ for detailed query syntax.
+- Can be used in production k8s clusters with huge no of resources where reading through kubectl output line by line might get difficult.
+- Filtering kubectl output using custom columns example: `kubectl get nodes -o=custom-columns=NODE:<json-path-query>,CPU:<json.path.query>`
 
 ## Kubernetes admission controllers
 
