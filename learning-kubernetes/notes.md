@@ -152,6 +152,7 @@ kubectl rollout undo deployment/<deployment_name>
 - It helps in isolating components like deployments, pods, services, etc. We can use the same HA kubernetes cluster and isolate dev and prod envs using namespaces. 
 - Namespace-based scoping is applicable only for namespaced objects (e.g. Deployments, Services, etc) and not for cluster-wide objects (e.g. StorageClass, Nodes, PersistentVolumes, etc).
 - In order to access any service in another namespace use the domain `<service-name>.<namespace>.svc.cluster.local`. 
+- To check labels on any namespace: `kubectl get ns --show-labels`
 
 ## Taints and Tolerations
 
@@ -443,6 +444,52 @@ spec:
 - But in a large cluster where several teams have their own applications it's good to have a network policy to restrict access to critical pods like a database. 
 - Specs defined in the network policy in the list format are evaluated as an OR operation. Multiple specs under one spec are evaluated as an AND operation. 
 > Refer : https://kubernetes.io/docs/concepts/services-networking/network-policies/#networkpolicy-resource
+- Below is an example where there are 2 namespaces and the traffic rules are selected on the basis of namespaces. Scenario `NetworkPolicy Namespace Selector` from `https://killercoda.com/killer-shell-cka/scenario/networkpolicy-namespace-communication`. 
+- To check labels on a namespace: `kubectl get ns --show-labels`
+
+```
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: np
+  namespace: space1
+spec:
+  # if you want to apply the rule to all pods in a namespace, dont mention the podselector
+  policyTypes:
+    - Egress
+  egress:
+    - to: 
+        - namespaceSelector:
+            matchExpressions:
+            - key: kubernetes.io/metadata.name
+              operator: In
+              values: ["space2"]
+    - to:
+        - ipBlock:
+            cidr: 0.0.0.0/0
+      ports:
+           - protocol: TCP
+             port: 53
+           - protocol: UDP
+             port: 53
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: np
+  namespace: space2
+spec:
+  # if you want to apply the rule to all pods in a namespace, dont mention the podselector
+  policyTypes:
+    - Ingress
+  ingress:
+    - from: 
+        - namespaceSelector:
+            matchExpressions:
+            - key: kubernetes.io/metadata.name
+              operator: In
+              values: ["space1"]
+```
 
 ## Storgage : 
 
@@ -518,7 +565,7 @@ Tutorial : https://www.youtube.com/watch?v=XHRsPp6TORo
 - kubectl get commands convert the long json output into a short readable format. Sometimes to get internal details we can use `kubectl get nodes -o=jsonpath='{query}'`. Where query format is `$.root_key.further_json_structure`
 - Refer https://kubernetes.io/docs/reference/kubectl/jsonpath/ for detailed query syntax.
 - Can be used in production k8s clusters with huge no of resources where reading through kubectl output line by line might get difficult.
-- Filtering kubectl output using custom columns example: `kubectl get nodes -o=custom-columns=NODE:<json-path-query>,CPU:<json.path.query>`
+- Filtering kubectl output using custom columns example: `kubectl get nodes -o=custom-columns=NODE:<json-path-query>,CPU:<json.path.query>`. No need to add `.items[*]` in the jsonpath query.
 
 ## Kubernetes admission controllers
 
@@ -529,5 +576,87 @@ Tutorial : https://www.youtube.com/watch?v=XHRsPp6TORo
 - built-in admission controller that allows a cluster administrator to control security-sensitive aspects of the Pod specification.
 - not to be confused with pod security context (https://kubernetes.io/docs/tasks/configure-pod-container/security-context/)
 
+## Statefulsets
+
+## Liveness and readiness probes
+
+## Inter-Pod Affinity and Antiaffinity
+
+- inter-pod affinity and anti-affinity allow us to constrain the nodes your pods can be scheduled on based on the labels of pods already running on that node, instead of the node labels.
+- rule for inter-pod affinity is of the form: this pod should run in an X node if that X node is already running one or more pods that meet rule Y. Example: when webapp pod needs to be closer to cache db pod.
+- rule for pod anit-affinity is of the form: this pod should not run in an X node if that X node is already running one or more pods that meet rule Y. Example: daemon-set
+- rule X: topology domain like node, rack, cloud provider zone or region, or similar
+- rule Y: label selectors with an optional list of namespaces
+- Pod affinity example:
+```
+apiVersion: v1
+kind: Pod
+metadata:
+  name: with-pod-affinity
+spec:
+  affinity:
+    podAffinity:
+      requiredDuringSchedulingIgnoredDuringExecution:
+      - labelSelector:
+          matchExpressions:
+          - key: security
+            operator: In
+            values:
+            - S1
+        topologyKey: topology.kubernetes.io/zone
+    podAntiAffinity:
+      preferredDuringSchedulingIgnoredDuringExecution:
+      - weight: 100
+        podAffinityTerm:
+          labelSelector:
+            matchExpressions:
+            - key: security
+              operator: In
+              values:
+              - S2
+          topologyKey: topology.kubernetes.io/zone
+  containers:
+  - name: with-pod-affinity
+    image: registry.k8s.io/pause:2.0
+```
+- pod anti-affinity example:
+```
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: redis-cache
+spec:
+  selector:
+    matchLabels:
+      app: store
+  replicas: 3
+  template:
+    metadata:
+      labels:
+        app: store
+    spec:
+      affinity:
+        podAntiAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+          - labelSelector:
+              matchExpressions:
+              - key: app
+                operator: In
+                values:
+                - store
+            topologyKey: "kubernetes.io/hostname"
+      containers:
+      - name: redis-server
+        image: redis:3.2-alpine
+```
+> Inter-pod affinity and anti-affinity require substantial amount of processing which can slow down scheduling in large clusters significantly. We do not recommend using them in clusters larger than several hundred nodes.
+> Pod anti-affinity requires nodes to be consistently labelled, in other words, every node in the cluster must have an appropriate label matching topologyKey. If some or all nodes are missing the specified topologyKey label, it can lead to unintended behavior.
+- topologykey => https://stackoverflow.com/questions/72240224/what-is-topologykey-in-pod-affinity
+
+## Managing certificates
+
+- View certificate details of a certificate using openssl: `openssl x509 -text -in file_name`
+- view certificate expiry using kubeadm cmd: `kubeadm certs check-expiration`
+- renew certificates using kubeadm: `kubeadm certs renew cert-object-name`
 
 
