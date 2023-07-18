@@ -1,0 +1,9 @@
+
+- scenarios on Killercoda.	--done
+- installation of cluster using kubeadm
+	- check how to join a node if token gets expired.	--Done
+- ingress networking	--done
+- network policy	--done
+- certficates, csr and renewal 	--done
+- storage 
+
