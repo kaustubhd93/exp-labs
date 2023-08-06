@@ -31,11 +31,27 @@ locals {
     - Day 1: Develop and iterate
     - Day 2: Go live and maintain 
 
+## Advantages of Infrastructure lifecycle
+
+- Reliability 
+    - IAC makes changes idempotent(no matter how many times we run IAC, we will always end up with the same state), consistent, repeatable and predictable
+- Manageability
+- Sensibility
+    - can recreate infrastructure if somebody accidentally deletes anything
+    - avoid financial and reputational losses.
+
+
 ## What is configuration drift 
 - It is when provisioned infrastructure undergoes an unexpected configuration change due to:
     - some team member manually changed something in infrastructure.
     - malicious actors
     - unchecked usage of cloud provider cli or SDK from some other application.
+
+### Correcting configuration drift
+- `terraform apply -refresh-only`
+
+### Avoiding configuration drift
+- Create immutable infrastructure: containers, blue-green deployment etc.
 
 ## Change management
 
@@ -46,6 +62,10 @@ locals {
 - a way of automatically creating a consistent, systematic and predictable way of managing change request via controls and policies 
 - Terraform uses change automation in the form of execution plans and resource graphs to apply and review complex changesets (a collection of commits that represent changes made to a version control system ) 
 
+## execution plan
+
+- a manual review of what will be added, changed and destroyed before you apply changes.
+
 # Key commands
 
 - terraform init  (Download plugins if required)
@@ -55,6 +75,7 @@ locals {
 - terraform plan -var-file=filename.tfvars 
 - terraform apply (Create planned resources.)
 - terraform apply -auto-approve (Can be used in CICD pipelines)
+- terraform apply -refresh-only (for correcting configuration drifts)
 - terraform validate (Validates your tf file configuraion, requires terraform init)
 
 # Creating resorces 
