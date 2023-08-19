@@ -1,24 +1,43 @@
+# terraform {
+#   required_providers {
+#     aws = {
+#       source  = "hashicorp/aws"
+#       version = "~> 4.0"
+#     }
+#   }
+# }
+
+# # Configure the AWS Provider
+# provider "aws" {
+#   # if not mentioned explicity, picks up default profile
+#   #profile = var.profile
+#   region = "ap-south-1"
+# }
+
 terraform {
   required_providers {
     aws = {
-      source  = "hashicorp/aws"
-      version = "~> 4.0"
+      source = "hashicorp/aws"
+      version = "~> 5.0"
     }
   }
 }
 
-# Configure the AWS Provider
 provider "aws" {
-  # if not mentioned explicity, picks up default profile
-  #profile = var.profile
+  # Configuration options
   region = "ap-south-1"
+  #profile = "default"
 }
 
 locals {
-  environment = "dev"
+  mode_of_creation = "terraform"
 }
 
 variable "instance_type" {
+  type = string
+}
+
+variable "environment" {
   type = string
 }
 
@@ -27,18 +46,22 @@ variable "instance_type" {
 # }
 
 resource "aws_instance" "tf_inst" {
-  ami = "ami-06984ea821ac0a879"
-  #instance_type = "t3a.micro"
-  instance_type = var.instance_type
+  ami = "ami-0f5ee92e2d63afc18"
+  instance_type = "t3a.nano"
+  #instance_type = var.instance_type
 
   tags = {
     Name             = "terraform_poc"
-    mode_of_creation = "terraform"
-    environment = local.environment
+    mode_of_creation = local.mode_of_creation
+    environment = var.environment
   }
 }
 
-output "instance_ip_addr" {
+output "public_ip" {
+  value = aws_instance.tf_inst.public_ip
+}
+
+output "private_ip" {
   value = aws_instance.tf_inst.private_ip
 }
 
