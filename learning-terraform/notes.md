@@ -13,6 +13,7 @@
 
 - A local value assigns a name to an expression so you can use the name multiple times within a module instead of repeating the expression. 
 - input variables are like function arguments, output variables are like function return values, local values are like a function's temporary local variables.
+- unlike variables which are scoped globally, locals are scoped to their modules.
 
 ### Syntax
 
@@ -114,3 +115,9 @@ variable "variable_name" {
 
 - Do not try to tinker with the terraform.tfstate file.
 - Do not try to copy an existing .terraform folder for a different tf project. It does not recognise it. Run `terraform init` for separate projects. 
+
+## terraform modules 
+
+- a set of tf files in a directory that allows you to create logical abstraction on top of some resource set. use case: reusable configuration.
+- a single tf file in a directory is also a module, it is called as root module.
+- 
