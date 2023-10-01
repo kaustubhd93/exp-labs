@@ -120,4 +120,17 @@ variable "variable_name" {
 
 - a set of tf files in a directory that allows you to create logical abstraction on top of some resource set. use case: reusable configuration.
 - a single tf file in a directory is also a module, it is called as root module.
+- usual structure
+```
+- variables.tf
+- outputs.tf
+- main.tf
+- data.tf
+```
+
+## terraform provisioners
+
+- provisioners can install software, edit files and provision machines created with terraform.
+- allows you to work with 2 different provisioners: cloud-init and packer
+- use provisioners only as a last resort
 - 

@@ -1,7 +1,11 @@
-# output "public_ip" {
-#   value = aws_instance.tf_inst.public_ip
-# }
+output "vpc_id" {
+    value = module.vpc.vpc_id
+}
 
-# output "private_ip" {
-#   value = aws_instance.tf_inst.private_ip
-# }
+output "public_subnets" {
+  value = module.vpc.public_subnets
+}
+
+output "private_subnets" {
+  value = module.vpc.private_subnets
+}

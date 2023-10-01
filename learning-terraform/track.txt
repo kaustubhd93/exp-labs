@@ -1,5 +1,8 @@
-
-last_timestamp = 49:18
+# 002
+last_timestamp = 02:00:11
 link = https://www.youtube.com/watch?v=V4waklkBC38
 
+# 003
+last_timestamp = 1:08:04
+link = https://www.youtube.com/watch?v=SPcwo0Gq9T8&t=0s
 

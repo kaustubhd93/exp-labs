@@ -2,17 +2,6 @@ locals {
   mode_of_creation = "terraform"
 }
 
-# resource "aws_instance" "tf_inst" {
-#   ami = var.ami_id
-#   instance_type = var.instance_type
-
-#   tags = {
-#     Name             = "terraform_poc"
-#     mode_of_creation = local.mode_of_creation
-#     environment = var.environment
-#   }
-# }
-
 module "vpc" {
   source = "terraform-aws-modules/vpc/aws"
 
@@ -34,6 +23,4 @@ module "vpc" {
   }
 }
 
-
-# 01:31:33
 
