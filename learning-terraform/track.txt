@@ -3,6 +3,40 @@ last_timestamp = 02:00:11
 link = https://www.youtube.com/watch?v=V4waklkBC38
 
 # 003
-last_timestamp = 1:08:04
+last_timestamp = 1:54:43
 link = https://www.youtube.com/watch?v=SPcwo0Gq9T8&t=0s
+
+**Course Contents**
+
+>>  0:00:00==Course Intro
+>>  0:15:03==Introduction
+>>  0:31:55==IaC Concepts
+>>  0:52:26==Hashicorp Introduction
+>>  0:56:33==Terraform Basics
+>>  1:07:37==Terraform Provisioners
+>>  1:20:19==Terraform Providers
+>>  1:30:35==Terraform Language
+>>  1:35:23==Variables and Data
+>>  1:47:52==Meta Arguments
+>>  1:54:40==Expressions
+>>  2:41:01==Terraform State
+>>  2:45:42==Initialization
+>>  2:48:09==Writing and Modifying
+>>  2:51:17==Plan and Apply
+>>  2:54:23==Drift
+>>  3:01:24==Troubleshooting
+>>  3:05:55==Terraform Modules
+>>  3:11:25==Terraform Workflows
+>>  3:18:28==Terraform Backends
+>>  3:37:22==Resources and Complex Types
+>>  3:48:10==Built in Functions
+>>  4:18:30==Terraform Cloud
+>>  4:42:10==Terraform Enterprise
+>>  4:51:47==Workspaces
+>>  5:07:53==Sentinel and Terraform
+>>  5:54:42==Packer
+>>  6:22:04==Consul
+>>  6:23:13==Vault
+>>  6:56:06==Miscellaneous
+
 

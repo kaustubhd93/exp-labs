@@ -1,3 +1,4 @@
+# Terraform settings block
 terraform {
   # cloud {
   #   organization = "kd-tf-org"
