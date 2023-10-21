@@ -473,4 +473,113 @@ resource "aws_iam_user" "the-accounts" {
     - replace_triggered_by (list of resource or attribute references)
 > Refer: https://developer.hashicorp.com/terraform/language/meta-arguments/lifecycle
 
+## expressions in terraform
+
+### type and values
+
+#### primitive types
+
+- string
+- number
+- bool
+
+#### no type
+
+- null: null in terraform doesnt mean it's nothing, it means it is going to use the default setting
+
+#### complex/structural/collection
+
+- list(tuple)
+- map(object)
+
+## string templates
+
+- string interpolation: `"Hello, ${var.name}!"`
+- string directive: `"Hello, %{ if var.name!= "" }${var.name}%{else}unnamed%{endif}"`
+- heredoc: 
+```
+<<EOT
+%{ for ip in aws_instance.example[*].private_ip }
+server ${ip}
+%{ endfor }
+EOT
+```
+- heredoc with whitespace stripping:
+```
+<<EOT
+%{ for ip in aws_instance.example[*].private_ip ~}
+server ${ip}
+%{ endfor ~}
+EOT
+```
+
+## conditional expressions
+
+- syntax: `condition ? true_val : false_val`; if condition is true, true_val if false false_val
+- A common use of conditional expressions is to define defaults to replace invalid values
+- `var.a != "" ? var.a : "default-value-for-a"`
+- data type of the value on which condition is being evaluated and return value must be same.
+
+## for expressions
+
+- dont confuse this with `for_each`. `for` is an expression and `for_each` is a meta_argument for a resource in terraform.
+- accepts input: `list`, `set`, `tuple`, `map`, `object`
+```
+# square braces return a tuple
+[for s in var.list: upper(s)] ==>  ["HELLO", "WORLD"]
+# curly braces return an object
+{ for s in var.list: s => upper(s)} ==> {hello = "HELLO", world = "WORLD"}
+```
+- You can also use the two-symbol form with lists and tuples, in which case the additional symbol is the index of each element starting from zero, which conventionally has the symbol name i or idx unless it's helpful to choose a more specific name:
+```
+[for i, v in var.list : "${i} is ${v}"]
+``` 
+- The index or key symbol is always optional. If you specify only a single symbol after the for keyword then that symbol will always represent the value of each element of the input collection
+
+## splat expressions
+
+- a more concise way of expressing a common operation that otherwise could be performed using `for`. 
+- `[for s in var.list : s.id]` is equivalent `var.list[*].id`
+- sort of looks like jsonpath when lists are involved.
+
+## dynamic blocks
+
+- a dynamic block will allow you to use dynamically nested blocks which are repeatable. usually inside the resource block, a particular setting is quite literal and fixed. In order to make that dynamic and more modular, you can use a dynamic block. 
+- For example :
+```
+
+locals {
+  ingress_rules = [{
+    port = 443
+    description = "port 443"
+  },
+  {
+    port = 80
+    description = "port 80"
+  }]
+}
+
+resource "aws_security_group" "lb" {
+  name = "sg-lb"
+  vpc_id = data.aws_vpc.main.id
+
+  # This below otherwise would have just been 
+  # ingress {
+  #   all_settings here 
+  # }
+  # refer : https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/security_group
+  dynamic "ingress" {
+
+    for_each = locals.ingress_rules
+
+    content {
+      description = ingress.value.description
+      from_port = ingress.value.port
+      to_port = ingress.value.port
+      protocol = "tcp"
+      cidr_blocks = ["0.0.0.0/0"]
+    }
+  }
+}
+```
 

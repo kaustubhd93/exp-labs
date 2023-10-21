@@ -3,7 +3,7 @@ last_timestamp = 02:00:11
 link = https://www.youtube.com/watch?v=V4waklkBC38
 
 # 003
-last_timestamp = 1:54:43
+last_timestamp = 2:08:04
 link = https://www.youtube.com/watch?v=SPcwo0Gq9T8&t=0s
 
 **Course Contents**
