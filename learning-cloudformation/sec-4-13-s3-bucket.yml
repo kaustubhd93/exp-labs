@@ -1,0 +1,22 @@
+Resources:
+  # logical id
+  S3Bucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      # ensure bucket name is unique across all aws accounts globally. Like choosing a unique username
+      BucketName: cloudformation-poc-sec-4-13
+      Tags: 
+        - Key: environment
+          Value: poc
+      CorsConfiguration:
+        CorsRules:
+          - AllowedHeaders:
+              - '*'
+            AllowedMethods:
+              - GET
+            AllowedOrigins:
+              - '*'
+            ExposedHeaders:
+              - x-api-gw-id
+            Id: corsRule01
+            MaxAge: 3600
