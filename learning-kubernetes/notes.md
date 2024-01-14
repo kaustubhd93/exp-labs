@@ -404,6 +404,7 @@ users:
 - Command to list namespace objects  `kubectl api-resources --namespaced=true`
 - Command to list objects that are not namespaced `kubectl api-resources --namespaced=false`
 - Command to check if a user has permission `kubectl verb resource --as user/group`
+- command to check if a service account has permission `kubectl -n <namespace> auth can-i <verb> <resource> --as system:serviceaccount:<namespace>:<serviceaccount_name>`
 
 ### ServiceAccount
 
@@ -563,6 +564,7 @@ volumeBindingMode: WaitForFirstConsumer
 Tutorial : https://www.youtube.com/watch?v=XHRsPp6TORo
 
 - kubectl get commands convert the long json output into a short readable format. Sometimes to get internal details we can use `kubectl get nodes -o=jsonpath='{query}'`. Where query format is `$.root_key.further_json_structure`
+- multiple json path queries : `kubectl get nodes -o=jsonpath='{query_1}{query_2}..{query_n}'`
 - Refer https://kubernetes.io/docs/reference/kubectl/jsonpath/ for detailed query syntax.
 - Can be used in production k8s clusters with huge no of resources where reading through kubectl output line by line might get difficult.
 - Filtering kubectl output using custom columns example: `kubectl get nodes -o=custom-columns=NODE:<json-path-query>,CPU:<json.path.query>`. No need to add `.items[*]` in the jsonpath query.
