@@ -49,4 +49,58 @@ Resources:
 - Termination Protection (so that stack doesn't get accidentally deleted.)
 - Quick-start link (to get stacks up and running quickly from the AWS CloudFormation console)
 
+## Building blocks
 
+- AWSTemplateFormatVersion: (Identifies capabilities of a template)
+- Description: (Comments about template)
+- Transform: (macros for template processing)
+- Metadata:
+- Resources: (Mandatory)
+- Outputs: (view resources that have been created, similar to Terraform output)
+- Conditionals:
+- Rules: (validate a parameter(s) during stack creation/update)
+
+### Template's Helpers
+
+- References
+- Functions
+
+## CF parameters
+
+- Parameters are like global variables for your templates which makes the template reusuable.
+- a way to provide input for CF templates
+- validation for parameters can be added. 
+
+### Referring blocks in CF
+
+- `Fn::Ref`. Since this is a little difficult to write all the time, we can use it's short form `!Ref`. Any `Fn::` can be written as `!`. If you have a shell programming background, ensure this `!` doesnt mean `not` or `false`
+
+### SSM parameters
+
+- There can be values like image-id that can change according to region, in this case we can use an SSM parameter (a feature of Systems Manager) where in you can use AWS public SSM parameters to compute the image id automatically based on the region. This keeps the template same across the region. 
+- This can also be used to make your own custom parameter which you can refer in the template. You can make custom SSM parameters manually or by Cloudformation Resources with `Type: AWS::SSM::Parameter`.
+- If you make a change in the SSM parameter directly, it can trigger an update in the linked CF stack where the SSM parameter is used. For eg: an SSM parameter like `/dev/web-server/ec2/instance-type` if changed from `t2.micro` to `t3a.micro`, it will trigger an update-stack to the CF stack where this parameter is being used. 
+
+## DependsOn
+
+- you can use the `DependsOn` option to specify any kind of dependencies your individual resource components have. For example:
+```
+Resources:
+  MyS3Bucket:
+    Type: AWS::S3::Bucket
+
+  # the EC2 instance will be created after the S3 bucket
+  MyInstance:
+    Type: AWS::EC2::Instance
+    Properties:
+      ImageId: !Ref ImageId
+      InstanceType: t2.micro
+    DependsOn: MyS3Bucket
+```
+
+## UpdateReplacePolicy
+
+- lets say there is property you wish to update, the update behaviour of this property in cloudformation is `Replacement`. `UpdateReplacePolicy` can control this behavior. 
+- default behaviour of UpdateReplacePolicy = Delete. You can set this to Retain or Snapshot according to your requirement. 
+- When you set to Retain, the resource gets removed from Cloudformation's setup.
+- Similarly when you set it to Snapshot, the snapshot taken gets removed from the CF's scope.
