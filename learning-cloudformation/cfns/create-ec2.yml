@@ -1,0 +1,67 @@
+Parameters:
+  SecurityGroupDescription:
+    Type: String
+    Default: 'Enable SSH access via port 22'
+
+  SecurityGroupPort:
+    Type: Number
+    # MinValue: 20
+    # MaxValue: 22
+    Default: 22
+
+  InstanceType:
+    Type: String
+    Default: t3.nano
+    AllowedValues:
+      - t3.micro
+      - t3.nano
+      - t3.small
+      - t3.medium    
+    ConstraintDescription: Must be a valid EC2 instance type.
+
+  KeyName:
+    Type: AWS::EC2::KeyPair::KeyName
+    ConstraintDescription: Must be a valid EC2 key pair.
+
+  ImageId:
+    Type: AWS::EC2::Image::Id
+    ConstraintDescription: Must be a valid EC2 image ID.
+
+  VPCId:
+    Type: AWS::EC2::VPC::Id
+    ConstraintDescription: Must be a valid VPC ID.
+
+  SubnetId:
+    Type: AWS::EC2::Subnet::Id
+    ConstraintDescription: Must be a valid subnet ID.
+
+  CidrIp:
+    Type: String
+    Default: '103.140.27.189/32'
+
+Resources:
+  MyEC2Instance:
+    Type: AWS::EC2::Instance
+    Properties:
+      ImageId: !Ref ImageId
+      InstanceType: !Ref InstanceType
+      KeyName: !Ref KeyName
+      SecurityGroupIds: 
+        - !GetAtt MySecurityGroup.GroupId
+      SubnetId: !Ref SubnetId
+      BlockDeviceMappings:
+        - DeviceName: '/dev/sdm'
+          Ebs:
+            VolumeSize: 8 
+            VolumeType: gp3
+
+  MySecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: !Ref SecurityGroupDescription
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: !Ref SecurityGroupPort
+          ToPort: !Ref SecurityGroupPort
+          CidrIp: !Ref CidrIp
+      VpcId: !Ref VPCId
