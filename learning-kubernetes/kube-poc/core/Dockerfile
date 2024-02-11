@@ -6,6 +6,8 @@ COPY . /app
 
 RUN pip install --trusted-host pypi.org -r requirements.txt
 
+ENV PYTHONUNBUFFERED 1
+
 CMD ["python", "app.py"]
 
 EXPOSE 8080
