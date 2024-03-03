@@ -14,7 +14,11 @@ Parameters:
       - t3.micro
       - t3.nano
       - t3.small
-      - t3.medium    
+      - t3.medium
+      - t3a.nano
+      - t3a.micro
+      - t3a.small
+      - t3a.medium
     ConstraintDescription: Must be a valid EC2 instance type.
 
   KeyName:
@@ -22,7 +26,8 @@ Parameters:
     ConstraintDescription: Must be a valid EC2 key pair.
 
   ImageId:
-    Type: AWS::EC2::Image::Id
+    Type: AWS::SSM::Parameter::Value<AWS::EC2::Image::Id>
+    Default: /aws/service/canonical/ubuntu/server/22.04/stable/current/amd64/hvm/ebs-gp2/ami-id
     ConstraintDescription: Must be a valid EC2 image ID.
 
   VPCId:
@@ -37,6 +42,11 @@ Parameters:
     Type: String
     Default: ''
 
+  RootVolumeSize:
+    Type: Number
+    Default: 8
+    ConstraintDescription: Must be a valid EBS volume size
+
 Resources:
   MyEC2Instance:
     Type: AWS::EC2::Instance
@@ -50,7 +60,7 @@ Resources:
       BlockDeviceMappings:
         - DeviceName: '/dev/sda1'
           Ebs:
-            VolumeSize: 8 
+            VolumeSize: !Ref RootVolumeSize
             VolumeType: gp3
 
   MySecurityGroup:
