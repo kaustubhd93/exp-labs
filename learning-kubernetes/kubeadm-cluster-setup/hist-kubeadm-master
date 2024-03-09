@@ -107,3 +107,92 @@ EOF
   112  kubectl get pods,svc
   113  cd
   114  history
+
+
+-------------------------------------------- k8s 1.29 ----------------------------
+
+Pre-requisites: https://kubernetes.io/docs/setup/production-environment/container-runtimes/
+
+    1  apt-get update
+    2  cat <<EOF | sudo tee /etc/modules-load.d/k8s.conf
+overlay
+br_netfilter
+EOF
+
+    3  modprobe overlay
+    4  modprobe br_netfilter
+    5  cat <<EOF | sudo tee /etc/sysctl.d/k8s.conf
+net.bridge.bridge-nf-call-iptables  = 1
+net.bridge.bridge-nf-call-ip6tables = 1
+net.ipv4.ip_forward                 = 1
+EOF
+
+    6  sysctl --system
+    7  lsmod | grep (br_netfilter|overlay)
+    8  lsmod | grep -e '(br_netfilter|overlay)'
+    9  lsmod | grep -E '(br_netfilter|overlay)'
+   10  sysctl net.bridge.bridge-nf-call-iptables net.bridge.bridge-nf-call-ip6tables net.ipv4.ip_forward
+   11  cd /opt/
+   12  ls
+   13  mkdir -p downloads
+   14  cd downloads/
+   15  ls
+   16  cd ..
+   17  rm -rf downloads/
+   18  cd
+   19  mkdir -p downloads
+   20  cd downloads/
+   21  wget https://github.com/containerd/containerd/releases/download/v1.7.13/containerd-1.7.13-linux-amd64.tar.gz
+   22  tar Cxzvf /usr/local containerd-1.7.13-linux-amd64.tar.gz
+   23  wget https://raw.githubusercontent.com/containerd/containerd/main/containerd.service
+   24  cat containerd.service
+   25  cp containerd.service /usr/local/lib/systemd/system/containerd.service
+   26  mkdir -p /usr/local/lib/systemd/system/
+   27  cp containerd.service /usr/local/lib/systemd/system/containerd.service
+   28  systemctl daemon-reload
+   29  systemctl enable --now containerd
+   30  wget https://github.com/opencontainers/runc/releases/download/v1.1.12/runc.amd64
+   31  install -m 755 runc.amd64 /usr/local/sbin/runc
+   32  mkdir -p /opt/cni/bin
+   33  wget https://github.com/containernetworking/plugins/releases/download/v1.4.0/cni-plugins-linux-amd64-v1.4.0.tgz
+   34  tar Cxzvf /opt/cni/bin cni-plugins-linux-amd64-v1.1.1.tgz
+   35  tar Cxzvf /opt/cni/bin cni-plugins-linux-amd64-v1.4.0.tgz
+   36  containerd config default > /etc/containerd/config.toml
+   37  mkdir -p /etc/containerd
+   38  containerd config default > /etc/containerd/config.toml
+   39  view /etc/containerd/config.toml
+   40  vim /etc/containerd/config.toml
+   41  systemctl status containerd
+   42  systemctl restart containerd
+   43  systemctl status containerd
+   44  cd
+   45  ctr
+   46  ctr ps
+   47  ctr containers
+   48  ctr containers list
+   49  ctr containers images
+   50  ctr images list
+   51  cd downloads/
+   52  vim /etc/containerd/config.toml
+   53  apt-get update
+   54  apt-get install -y apt-transport-https ca-certificates curl gpg
+   55  state /etc/apt/keyrings
+   56  stat /etc/apt/keyrings
+   57  curl -fsSL https://pkgs.k8s.io/core:/stable:/v1.29/deb/Release.key | sudo gpg --dearmor -o /etc/apt/keyrings/kubernetes-apt-keyring.gpg
+   58  echo 'deb [signed-by=/etc/apt/keyrings/kubernetes-apt-keyring.gpg] https://pkgs.k8s.io/core:/stable:/v1.29/deb/ /' | sudo tee /etc/apt/sources.list.d/kubernetes.list
+   59  apt-get update
+   60  apt-get install -y kubelet kubeadm kubectl
+   61  apt-mark hold kubelet kubeadm kubectl
+   62  cd
+   64  ip r
+   65  kubeadm init --control-plane-endpoint=10.31.35.189 --apiserver-advertise-address=10.31.35.189 --pod-network-cidr=192.168.0.0/16
+   66  mkdir -p $HOME/.kube
+   67  kubectl get all
+   68  kubectl -n kube-systetem get all
+   69  kubectl -n kube-system get all
+       kubectl taint nodes --all node-role.kubernetes.io/control-plane-
+       # For installing networking plugin calico: refer https://docs.tigera.io/calico/latest/getting-started/kubernetes/quickstart
+  157  kubectl create -f https://raw.githubusercontent.com/projectcalico/calico/v3.27.2/manifests/tigera-operator.yaml
+  158  kubectl create -f https://raw.githubusercontent.com/projectcalico/calico/v3.27.2/manifests/custom-resources.yaml
+  159  watch kubectl get pods -n calico-system
+  160  kubectl get nodes
