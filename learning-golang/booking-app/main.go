@@ -1,15 +1,23 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"strings"
+)
 
 func main() {
 	// Golang can infer the data type of the variable.
 	var conferenceName = "GOPHERCON 2024"
-	// Sometimes if golang doesnt infer you can statically type it.
+	// Sometimes if golang doesn't infer you can statically type it.
 	const totalTickets int = 100
 	// Go's sugar syntax
 	// ticketsAvailable := 100
 	var ticketsAvailable uint = 100
+	// While declaring an array size needs to be mentioned. This size is fixed.
+	// var bookings [100]string
+	// In case if we dont the size of array and it's index for storing data, we can use
+	// slices. Slices are basically flexible arrays. It's effecient
+	var bookings []string
 
 	fmt.Println("**************************************************************")
 	fmt.Println("Hey there! Welcome to", conferenceName, "booking application")
@@ -20,16 +28,53 @@ func main() {
 	fmt.Printf("Total no of tickets: %v\n", totalTickets)
 	fmt.Printf("Tickets available: %v\n", ticketsAvailable)
 
-	var userName string
-	var userTickets uint
-	fmt.Print("Enter your username: ")
-	fmt.Scan(&userName)
-	fmt.Print("Enter the number of tickets you want to book: ")
-	fmt.Scan(&userTickets)
+	for {
+		var userName string
+		var firstName string
+		var lastName string
+		var emailId string
+		var userTickets uint
+		fmt.Print("Enter your username: ")
+		fmt.Scan(&userName)
+		fmt.Print("Enter your first name: ")
+		fmt.Scan(&firstName)
+		fmt.Print("Enter your last name: ")
+		fmt.Scan(&lastName)
+		fmt.Print("Enter your email id: ")
+		fmt.Scan(&emailId)
+		fmt.Print("Enter the number of tickets you want to book: ")
+		fmt.Scan(&userTickets)
 
-	ticketsAvailable = ticketsAvailable - userTickets
+		if userTickets > ticketsAvailable {
+			fmt.Println("*************************************************************")
+			fmt.Printf("Only %v ticket(s) are available\n", ticketsAvailable)
+			fmt.Println("*************************************************************")
+			fmt.Printf("No of tickets requested %v are more than avaialble tickets %v\n", userTickets, ticketsAvailable)
+			fmt.Println("*************************************************************")
+			continue
+		}
+		ticketsAvailable = ticketsAvailable - userTickets
+		//bookings[0] = firstName + " " + lastName + " " + emailId
+		bookings = append(bookings, firstName+" "+lastName+" "+emailId)
 
-	fmt.Printf("Hi %v! you have booked %v tickets\n", userName, userTickets)
-	fmt.Printf("Tickets available: %v\n", ticketsAvailable)
+		fmt.Printf("Hi %v! you have booked %v tickets\n", firstName, userTickets)
+		fmt.Printf("Tickets available: %v\n", ticketsAvailable)
+		fmt.Printf("Total bookings: %v\n", bookings)
+		firstNames := []string{}
+		// for index, element_of_list := range slice
+		// _ is used when we want to declare an unused variable. This is called a blank identifier.
+		for _, bookingDetails := range bookings {
+			// using the strings.Fields function will split the element by spaces and create a new list
+			// that can be iterated. Works similar to "string_sample".split() in python
+			var nameDetails = strings.Fields(bookingDetails)
+			firstNames = append(firstNames, nameDetails[0])
+		}
+		fmt.Printf("First name of people who have booked tickets: %v\n", firstNames)
+
+		if ticketsAvailable == 0 {
+			fmt.Println("All tickets sold out!")
+			break
+		}
+	}
 
 }
