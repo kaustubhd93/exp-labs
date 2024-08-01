@@ -45,12 +45,28 @@ func main() {
 		fmt.Print("Enter the number of tickets you want to book: ")
 		fmt.Scan(&userTickets)
 
-		if userTickets > ticketsAvailable {
+		// validate user input
+		isValidName := len(firstName) >= 2 && len(lastName) >= 2
+		isValidEmail := strings.Contains(emailId, "@") && strings.Contains(emailId, ".")
+		isValidUserTickets := userTickets > 0 && userTickets <= ticketsAvailable
+
+		// Check if all validations are met
+		if !isValidName || !isValidEmail || !isValidUserTickets {
+			if userTickets > ticketsAvailable {
+				fmt.Println("*************************************************************")
+				fmt.Printf("Only %v ticket(s) are available\n", ticketsAvailable)
+				fmt.Println("*************************************************************")
+			}
 			fmt.Println("*************************************************************")
-			fmt.Printf("Only %v ticket(s) are available\n", ticketsAvailable)
+			fmt.Println("Unable to book ticket. Please enter valid details.")
 			fmt.Println("*************************************************************")
-			fmt.Printf("No of tickets requested %v are more than avaialble tickets %v\n", userTickets, ticketsAvailable)
-			fmt.Println("*************************************************************")
+			if !isValidName {
+				fmt.Println("First Name and Last name should have atleast 2 characters")
+			}
+			if !isValidEmail {
+				fmt.Println("Email id entered is not a valid email id")
+			}
+			// Dont break the loop, give an option to book the right amount of tickets to user.
 			continue
 		}
 		ticketsAvailable = ticketsAvailable - userTickets
@@ -65,7 +81,7 @@ func main() {
 		// _ is used when we want to declare an unused variable. This is called a blank identifier.
 		for _, bookingDetails := range bookings {
 			// using the strings.Fields function will split the element by spaces and create a new list
-			// that can be iterated. Works similar to "string_sample".split() in python
+			// that can be iterated. Works similar to "dummy_string".split() in python
 			var nameDetails = strings.Fields(bookingDetails)
 			firstNames = append(firstNames, nameDetails[0])
 		}
