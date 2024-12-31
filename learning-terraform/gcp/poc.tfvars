@@ -1,0 +1,5 @@
+project_id = "poc-all-430807"
+region     = "us-central1"
+zone       = "us-central1-c"
+machine_type = "e2-medium"
+machine_image = "ubuntu-2204-jammy-v20241218"
