@@ -36,13 +36,13 @@ resource "google_compute_instance" "vm_instance" {
   }
 
   metadata = {
-    ssh-keys = "ubuntu:${file("~/workspace/keys/k8s-sandbox.pub")}"
+    ssh-keys = "ubuntu:${file("~/Workspace/keys/k8s-sandbox.pub")}"
     startup-script = file("userdata.tpl")
   }
 }
 
 resource "google_compute_firewall" "rules" {
-  name        = "my-firewall-rule"
+  name        = "poc-firewall-rule"
   network     = google_compute_network.vpc_network.name
   description = "Creates firewall rule targeting tagged instances"
 

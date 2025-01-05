@@ -1,0 +1,52 @@
+NAMESPACE          NAME                                           READY   STATUS              RESTARTS   AGE
+calico-apiserver   pod/calico-apiserver-764658c455-6pxwx          0/1     ContainerCreating   0          31m
+calico-apiserver   pod/calico-apiserver-764658c455-6zckd          0/1     ContainerCreating   0          31m
+calico-system      pod/calico-kube-controllers-866d4cbcc5-q42w5   0/1     ContainerCreating   0          31m
+calico-system      pod/calico-node-tpnlm                          1/1     Running             0          31m
+calico-system      pod/calico-typha-676bf45b7d-77xj4              1/1     Running             0          31m
+calico-system      pod/csi-node-driver-vdh4r                      0/2     ContainerCreating   0          31m
+kube-system        pod/coredns-7c65d6cfc9-tdtdh                   0/1     ContainerCreating   0          31m
+kube-system        pod/coredns-7c65d6cfc9-v9krd                   0/1     ContainerCreating   0          31m
+kube-system        pod/etcd-poc-instance                          1/1     Running             0          31m
+kube-system        pod/kube-apiserver-poc-instance                1/1     Running             0          31m
+kube-system        pod/kube-controller-manager-poc-instance       1/1     Running             0          31m
+kube-system        pod/kube-proxy-pn9j5                           1/1     Running             0          31m
+kube-system        pod/kube-scheduler-poc-instance                1/1     Running             0          31m
+tigera-operator    pod/tigera-operator-76c4976dd7-57tvz           1/1     Running             0          31m
+
+NAMESPACE          NAME                   TYPE        CLUSTER-IP       EXTERNAL-IP   PORT(S)                  AGE
+calico-apiserver   service/calico-api     ClusterIP   10.109.205.126   <none>        443/TCP                  31m
+calico-system      service/calico-typha   ClusterIP   10.106.201.132   <none>        5473/TCP                 31m
+default            service/kubernetes     ClusterIP   10.96.0.1        <none>        443/TCP                  31m
+kube-system        service/kube-dns       ClusterIP   10.96.0.10       <none>        53/UDP,53/TCP,9153/TCP   31m
+
+NAMESPACE       NAME                             DESIRED   CURRENT   READY   UP-TO-DATE   AVAILABLE   NODE SELECTOR            AGE
+calico-system   daemonset.apps/calico-node       1         1         1       1            1           kubernetes.io/os=linux   31m
+calico-system   daemonset.apps/csi-node-driver   1         1         0       1            0           kubernetes.io/os=linux   31m
+kube-system     daemonset.apps/kube-proxy        1         1         1       1            1           kubernetes.io/os=linux   31m
+
+NAMESPACE          NAME                                      READY   UP-TO-DATE   AVAILABLE   AGE
+calico-apiserver   deployment.apps/calico-apiserver          0/2     2            0           31m
+calico-system      deployment.apps/calico-kube-controllers   0/1     1            0           31m
+calico-system      deployment.apps/calico-typha              1/1     1            1           31m
+kube-system        deployment.apps/coredns                   0/2     2            0           31m
+tigera-operator    deployment.apps/tigera-operator           1/1     1            1           31m
+
+NAMESPACE          NAME                                                 DESIRED   CURRENT   READY   AGE
+calico-apiserver   replicaset.apps/calico-apiserver-764658c455          2         2         0       31m
+calico-system      replicaset.apps/calico-kube-controllers-866d4cbcc5   1         1         0       31m
+calico-system      replicaset.apps/calico-typha-676bf45b7d              1         1         1       31m
+kube-system        replicaset.apps/coredns-7c65d6cfc9                   2         2         0       31m
+tigera-operator    replicaset.apps/tigera-operator-76c4976dd7           1         1         1       31m
+
+
+
+
++ kubectl create -f https://raw.githubusercontent.com/projectcalico/calico/v3.29.1/manifests/custom-resources.yaml
+apiserver.operator.tigera.io/default created
+error: resource mapping not found for name: "default" namespace: "" from "https://raw.githubusercontent.com/projectcalico/calico/v3.29.1/manifests/custom-resources.yaml": no matches for kind "Installation" in version "operator.tigera.io/v1"
+ensure CRDs are installed first
+
+
+
+

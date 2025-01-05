@@ -1,8 +1,9 @@
 #!/bin/bash
+set -x
 containerd_version=2.0.1
 runc_version=1.2.3
 cni_plugins_version=1.6.1
-calico_version=3.29.1
+#calico_version=3.29.1
 k8s_version="1.31"
 pod_cidr=192.168.0.0/16
 nerdctl_version=2.0.2
@@ -14,8 +15,8 @@ runc_url="https://github.com/opencontainers/runc/releases/download/v$runc_versio
 cni_plugins_url="https://github.com/containernetworking/plugins/releases/download/v$cni_plugins_version/cni-plugins-linux-amd64-v$cni_plugins_version.tgz"
 nerdctl_url="https://github.com/containerd/nerdctl/releases/download/v$nerdctl_version/nerdctl-$nerdctl_version-linux-amd64.tar.gz"
 k8s_release_key_url="https://pkgs.k8s.io/core:/stable:/v$k8s_version/deb/Release.key"
-tigera_operator_url="https://raw.githubusercontent.com/projectcalico/calico/v$calico_version/manifests/tigera-operator.yaml"
-custom_resources_url="https://raw.githubusercontent.com/projectcalico/calico/v$calico_version/manifests/custom-resources.yaml"
+#tigera_operator_url="https://raw.githubusercontent.com/projectcalico/calico/v$calico_version/manifests/tigera-operator.yaml"
+#custom_resources_url="https://raw.githubusercontent.com/projectcalico/calico/v$calico_version/manifests/custom-resources.yaml"
 
 
 # Settings for ipv4, modprobe and iptables
@@ -80,8 +81,13 @@ chown -R ubuntu. /home/ubuntu/.kube/
 kubectl taint nodes --all node-role.kubernetes.io/control-plane-
 
 # Deploy CNI plugin for pod networking
-kubectl create -f $tigera_operator_url
-kubectl create -f $custom_resources_url
+pod_cidr_ip=`echo $pod_cidr | awk -F"/" '{print $1}'`
+pod_cidr_range=`echo $pod_cidr | awk -F"/" '{print $2}'`
+echo $pod_cidr_ip
+echo $pod_cidr_range
+wget https://github.com/flannel-io/flannel/releases/latest/download/kube-flannel.yml
+sed -i 's/10.244.0.0\/16/'$pod_cidr_ip'\/'$pod_cidr_range'/g' kube-flannel.yml
+kubectl apply -f kube-flannel.yml
 
 # Check node status whether ready
 kubectl get nodes
@@ -107,4 +113,4 @@ EOF
 
 # kubeconfig for root user
 mkdir -p /root/.kube
-cp -i /etc/kubernetes/admin.conf /root/.kube/config
+cp -rf  /etc/kubernetes/admin.conf /root/.kube/config
