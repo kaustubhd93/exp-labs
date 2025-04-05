@@ -6,3 +6,5 @@ learning-django/sampleapp/sampleapp/confidential.py
 *.sqlite3
 .terraform
 terraform.tfstate.backup
+*/*.terraform
+
