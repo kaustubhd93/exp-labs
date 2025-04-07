@@ -21,7 +21,7 @@ locals {
 # Create a resource group
 resource "azurerm_resource_group" "k8s-sandbox" {
   name     = "k8s-sandbox-rg"
-  location = "Southeast Asia"
+  location = "Central India"
   tags = {
     environment = "poc"
   }
@@ -66,8 +66,8 @@ resource "azurerm_linux_virtual_machine" "k8s-sandbox" {
   name                = "k8s-sandbox-vm"
   resource_group_name = azurerm_resource_group.k8s-sandbox.name
   location            = azurerm_resource_group.k8s-sandbox.location
-  size                = "Standard_B1ls"
-  admin_username      = "ubuntu"
+  size           = "Standard_B2s"
+  admin_username = "ubuntu"
   network_interface_ids = [
     azurerm_network_interface.k8s-sandbox.id,
   ]
