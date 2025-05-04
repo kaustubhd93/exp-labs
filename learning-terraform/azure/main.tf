@@ -1,5 +1,3 @@
-# We strongly recommend using the required_providers block to set the
-# Azure Provider source and version being used
 terraform {
   required_providers {
     azurerm = {
@@ -15,13 +13,13 @@ provider "azurerm" {
 }
 
 locals {
-  subnet_cidr = cidrsubnets("10.10.0.0/24", 1, 1)
+  subnet_cidr = cidrsubnets(var.vpc_cidr, 1, 1)
 }
 
 # Create a resource group
 resource "azurerm_resource_group" "k8s-sandbox" {
   name     = "k8s-sandbox-rg"
-  location = "Central India"
+  location = var.location
   tags = {
     environment = "poc"
   }
@@ -32,7 +30,7 @@ resource "azurerm_virtual_network" "k8s-sandbox" {
   name                = "k8s-sandbox-vnet"
   resource_group_name = azurerm_resource_group.k8s-sandbox.name
   location            = azurerm_resource_group.k8s-sandbox.location
-  address_space       = ["10.10.0.0/24"]
+  address_space       = [var.vpc_cidr]
 }
 
 resource "azurerm_subnet" "k8s-sandbox" {
@@ -66,8 +64,9 @@ resource "azurerm_linux_virtual_machine" "k8s-sandbox" {
   name                = "k8s-sandbox-vm"
   resource_group_name = azurerm_resource_group.k8s-sandbox.name
   location            = azurerm_resource_group.k8s-sandbox.location
-  size           = "Standard_B2s"
-  admin_username = "ubuntu"
+  #size                = "Standard_B2s"
+  size                = var.vm_size
+  admin_username      = "ubuntu"
   network_interface_ids = [
     azurerm_network_interface.k8s-sandbox.id,
   ]
@@ -76,7 +75,7 @@ resource "azurerm_linux_virtual_machine" "k8s-sandbox" {
 
   admin_ssh_key {
     username   = "ubuntu"
-    public_key = file("~/Workspace/keys/k8s-sandbox.pub")
+    public_key = file(var.ssh_key_file_path)
   }
 
   os_disk {
@@ -106,7 +105,7 @@ resource "azurerm_network_security_rule" "k8s-sandbox" {
   protocol                    = "Tcp"
   source_port_range           = "*"
   destination_port_range      = "*"
-  source_address_prefix       = "103.140.27.129/32"
+  source_address_prefix       = var.source_ip_cidr
   destination_address_prefix  = "*"
   resource_group_name         = azurerm_resource_group.k8s-sandbox.name
   network_security_group_name = azurerm_network_security_group.k8s-sandbox.name
