@@ -23,13 +23,13 @@ Parameters:
 
   KeyName:
     Type: AWS::EC2::KeyPair::KeyName
+    Default: ''
     ConstraintDescription: Must be a valid EC2 key pair.
 
   ImageId:
     Type: AWS::SSM::Parameter::Value<AWS::EC2::Image::Id>
-      #Type: AWS::EC2::Image::Id
-    Default: /aws/service/canonical/ubuntu/server/22.04/stable/current/amd64/hvm/ebs-gp2/ami-id
-    # ConstraintDescription: Must be a valid EC2 image ID.
+    Default: /aws/service/canonical/ubuntu/server/24.04/stable/20250401/amd64/hvm/ebs-gp3/ami-id
+    ConstraintDescription: Must be a valid EC2 image ID.
 
   VPCId:
     Type: AWS::EC2::VPC::Id
@@ -41,17 +41,12 @@ Parameters:
 
   CidrIp:
     Type: String
-    Default: ''
+    Default: '0.0.0.0/0'
 
   RootVolumeSize:
     Type: Number
     Default: 8
     ConstraintDescription: Must be a valid EBS volume size
-
-  InstanceProfile:
-    Type: String
-    ConstraintDescription: Must be a valid IAM instance profile name.
-    Default: ''
 
 Resources:
   MyEC2Instance:
@@ -63,12 +58,33 @@ Resources:
       SecurityGroupIds: 
         - !GetAtt MySecurityGroup.GroupId
       SubnetId: !Ref SubnetId
-      IamInstanceProfile: !Ref InstanceProfile
+      Tags:
+        - Key: Name
+          Value: !Sub "${AWS::StackName}"
       BlockDeviceMappings:
         - DeviceName: '/dev/sda1'
           Ebs:
             VolumeSize: !Ref RootVolumeSize
             VolumeType: gp3
+      UserData:
+        Fn::Base64: |
+          #!/bin/bash -xe
+          apt-get update
+          for pkg in docker.io docker-doc docker-compose docker-compose-v2 podman-docker containerd runc; do apt-get remove -y $pkg; done
+          apt-get install ca-certificates curl
+          install -m 0755 -d /etc/apt/keyrings
+          curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc
+          chmod a+r /etc/apt/keyrings/docker.asc
+
+          # Add the repository to Apt sources:
+          echo \
+            "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu \
+            $(. /etc/os-release && echo "${UBUNTU_CODENAME:-$VERSION_CODENAME}") stable" | \
+            tee /etc/apt/sources.list.d/docker.list > /dev/null
+          apt-get update
+          apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+          docker run hello-world
+          usermod -aG docker ubuntu
 
   MySecurityGroup:
     Type: AWS::EC2::SecurityGroup
