@@ -14,6 +14,7 @@ func main() {
 
 	fruits = append(fruits, "Banana", "Pineapple")
 	fmt.Println("Fruits:", fruits)
+	fmt.Println("3rd fruit:", fruits[2])
 
 	// you can slice a slice. The first value is always inclusive and the last one is non inclusive.
 	fruits = append(fruits[1:3])
@@ -42,4 +43,11 @@ func main() {
 	fmt.Println("Testscores sorted:", testScores)
 	fmt.Println("Are testScores sorted:", sort.IntsAreSorted(testScores))
 
+	courses := []string{"ansible", "docker", "kubernetes", "jenkins", "terraform"}
+	fmt.Println("courses:", courses)
+	index := 2
+	// removing an element in golang is not as straightforward as python where you can just pop the element
+	// out of the list. Below syntax looks like breaking the list and joining them again.
+	courses = append(courses[:index], courses[index+1:]...)
+	fmt.Println("courses:", courses)
 }
